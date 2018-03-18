@@ -11,10 +11,10 @@ app.engine('html',swig.renderFile)
 app.set('views','./views')
 app.set('view engine','html')
 
-// bp
-app.use(bp.urlencoded({ extended: true }))
-swig.setDefaults({cache:false})
-
+// 允许接受参数
+app.use(bp.urlencoded({ extended: true, }))
+// 允许参数json类型，否则axios使用请求 后端无法接受
+app.use(bp.json())
 // 定义不同路径的模块
 app.use('/admin',require('./routers/admin'));
 app.use('/api',require('./routers/api'));
@@ -31,6 +31,8 @@ app.get('/',function(req,res,next){
 app.get('/admin',function(req,res,next){
     res.render('admin')
 })
+
+
 
 
 // 定义静态文件访问的路径

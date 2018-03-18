@@ -5,8 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>后台管理</title>
+    <link rel="stylesheet" href="/public/admin/css/index.css">
 </head>
 <body>
-这是后台管理哦
+
+<div class="login">
+    <li>
+        <span>账号：</span>
+        <input type="text" placeholder="请输入您的账号" class="name">
+    </li>
+    <li>
+        <span>密码：</span>
+        <input type="password" placeholder="请输入您的密码" class="password">
+    </li>
+
+    <a href="javascript:;" class="active in">登陆</a>
+    <a href="javascript:;" class="out">注册</a>
+    <p class="pOut active">点击注册</p>
+    <p class="pIn">回到登陆</p>
+</div>
 </body>
+
+<!-- axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+var un = sessionStorage.getItem('username')
+var ps = sessionStorage.getItem('password')
+if(!!un && !!ps){
+    axios.post('../api/admin/login',{
+        name: un,
+        password: ps
+    }).then(function(res){
+        if(!!res.data){
+            // window.location.href = location.href + '/'
+        }
+    })
+}
+
+
+function getEl(x){
+    return document.querySelector(x)
+}
+var In = getEl('.in')
+var Out = getEl('.out')
+
+var pOut = getEl('.pOut')
+var pIn = getEl('.pIn')
+// 回到登陆，点击注册按钮切换
+pOut.onclick = function(){
+    pOut.className = In.className = 'in',
+    pIn.className = Out.className = 'active out'
+}
+pIn.onclick = function(){
+    pOut.className = In.className = 'active in',
+    pIn.className = Out.className = ' out'
+}
+
+var Name = document.querySelector('.name')
+var Password = getEl('.password')
+// 登陆
+In.onclick = function(){
+     axios.post('../api/admin/login',{
+        name: Name.value,
+        password: Password.value
+     }).then(function(res){
+        if(!!res.data){
+            sessionStorage.setItem('username',Name.value)
+            sessionStorage.setItem('password',Password.value)
+        }else{
+            alert(res.data)
+        }
+     })
+}
+
+// 注册
+Out.onclick = function(){
+    axios.post('../api/admin/logout',{
+        name: Name.value,
+        password: Password.value
+     }).then(function(res){
+        if(!!res.data){
+            alert(res.data)
+            pOut.className = In.className = 'active in',
+            pIn.className = Out.className = ' out'
+        }else{
+            alert(res.data)
+        }
+     })
+}
+</script>
 </html>

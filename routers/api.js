@@ -50,6 +50,8 @@ router.post('/user/del',function(q,s,n){
 
 
 // 以上为入门实例
+
+// 获取首页全部的文章
 router.post('/user/index',function(q,s,n){
     var sql = 'select * from `news`'
     sel(sql,function(e,r,n){
@@ -57,9 +59,37 @@ router.post('/user/index',function(q,s,n){
     })
 })
 
-router.get('/',function(q,s,n){
-    s.send('这是后台')
+
+// 后台登陆
+router.post('/admin/login',function(q,s,n){
+    var name = q.body.name;
+    var password = q.body.password
+
+    var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
+    sel(sql,function(e,r){
+        if(!r.length){
+            s.send('登陆失败')
+        }else{
+            s.send('登陆成功')
+        }
+    })
 })
+
+// 后台注册
+router.post('/admin/logout',function(q,s,n){
+    var name = q.body.name;
+    var password = q.body.password
+    var sql = 'INSERT INTO blog SET  ?';
+    var obj = {username:name,password:password}
+    add(sql,obj,function(e,r,n){
+        if(!!e){
+            s.send('注册失败')
+        }else{
+            s.send('注册成功')
+        }
+    })
+})
+
 
 
 module.exports = router;
