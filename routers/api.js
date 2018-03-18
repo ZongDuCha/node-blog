@@ -1,71 +1,65 @@
+var express = require('express');
+var router = express.Router()
+var { sel,add,update,del} = require('./mysql')
 
-var mysql = require('mysql')
-db = mysql.createConnection({
-    host: 'localhost', // 连接服务器地址
-    user: 'root',  // 连接帐号
-    password: '', // 连接密码
-    port: 3306, // 端口号
-    database:'mysql' // 数据库名称
+
+router.post('/user/find',function(q,s,n){
+    var name = q.body.name;
+    var password = q.body.password;
+    console.log(password)
+    // 判断是否为空
+    if(name == '' | password == ''){
+        s.json('帐号密码不能为空')
+        return false;
+    }
+
+    // 判断数据库是否有数据
+    add('INSERT INTO blog SET  ?',{username:name,password:password},function(e,r,n){
+        var sql = 'select * from `blog`';
+        sel(sql,function(e,r,n){
+            s.json(r)
+        })
+    })
 })
-global.db.connect();
 
-// 查询记录
-function sel(sel,callback){
-    db.query(sel,function(e,r,n){
-        if(e){
-            callback(e,null)
-            return;
-        }
-        if(!r){
-            console.log('无该记录，，api-sel')
-            callback(e,null)
-        }else{
-            callback(e,r,n)
-        }
+router.post('/user/add',function(q,s,n){
+    var name = q.body.name,
+        password = q.body.password;
+    add('INSERT INTO blog SET  ?',{username:name,password:password},function(e,r,n){
+        console.log(r)
     })
-    
-}
+})
 
-// 将数据 插入数据库中
-function add(sql,obj,callback){
-    db.query(sql,obj,function(e,r,n){
-        if(e) {
-            console.log('添加失败，，api-isStay');
-            callback(e,null);
-            return false
-        };
-        callback(e,r,n);
+router.post('/user/update',function(q,s,n){
+    var name = q.body.name,
+        password = q.body.password;
+    // updata 表明 set 修改的字段  where  条件  , { 原数据 }(可忽略)
+    update('UPDATE blog SET username="123" where password="qwe"',function(e,r,n){
+        console.log(r)
     })
-}
+})
 
-// 修改数据
-function update(sql,obj,callback){
-    db.query(sql,obj,function(e,r,n){
-        if(e){
-            console.log('修改失败，，api-update')
-            callback(e,null)
-            return;
-        }else{
-            callback(e,r=true,n)
-        }
+router.post('/user/del',function(q,s,n){
+    // delete from 表明 where 条件(唯一并删除一行的记录)
+    var sql = 'delete from blog where username=1'
+    var obj = {password: '2'}
+    del(sql,obj,function(e,r,n){
+        console.log(r)
     })
-}
+})
 
 
-function del(sql,obj,callback){
-    db.query(sql,obj,function(e,r,n){
-        if(e){
-            console.log('删除失败，，api-del')
-            callback(e,null)
-            return;
-        }
-        callback(e,r,n)
+// 以上为入门实例
+router.post('/user/index',function(q,s,n){
+    var sql = 'select * from `news`'
+    sel(sql,function(e,r,n){
+        s.json(r)
     })
-}
+})
 
-module.exports = {
-    sel:sel,
-    add:add,
-    update: update,
-    del: del
-}
+router.get('/',function(q,s,n){
+    s.send('这是后台')
+})
+
+
+module.exports = router;

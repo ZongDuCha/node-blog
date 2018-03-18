@@ -17,15 +17,21 @@ swig.setDefaults({cache:false})
 
 // 定义不同路径的模块
 app.use('/admin',require('./routers/admin'));
-//app.use('/api',require('./router/api'));
-//app.use('/',require('./router/main'));
+app.use('/api',require('./routers/api'));
+//app.use('/',require('./routers/main'));
 
-// 创建APP进程
+// 创建前端首页
 app.get('/',function(req,res,next){
     // 指定文件
     // 模版文件，相对于views
     res.render('index')
 })
+
+// 创建后台管理页面
+app.get('/admin',function(req,res,next){
+    res.render('admin')
+})
+
 
 // 定义静态文件访问的路径
 app.use('/public',express.static(__dirname+'/public'))

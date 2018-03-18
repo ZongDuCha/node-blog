@@ -26,7 +26,14 @@
 </header>
 
 <div class="container cont">
-    <div class="fLeft">1</div>
+    <div class="fLeft">
+
+        <div class="pagation">
+              <a href="">加载更多...</a>
+        </div>
+    </div>
+
+    <!-- .fRight -->
     <div class="fRight">
         <div class="logo">
             <img src="/public/logonameimg.png" alt="">
@@ -37,11 +44,11 @@
 
         <!-- new-tab -->
         <div class="new-tab">
-            <li><a href="">全部</a></li>
-            <li><a href="">全部</a></li>
-            <li><a href="">全部</a></li>
-            <li><a href="">全部</a></li>
-            <li><a href="">全部</a></li>
+            <li class="active"><a href="">全部</a></li>
+            <li><a href="">JS</a></li>
+            <li><a href="">CSS3</a></li>
+            <li><a href="">HTML5</a></li>
+            <li><a href="">VUE</a></li>
         </div>
     </div>
 </div>
@@ -57,30 +64,56 @@
 </body>
 <script src="/public/jq.js"></script>
 <script>
+
+$.ajax({
+      url: '../api/user/index',
+      type: 'post',
+      success: function(res){
+            for(var i=0;i<res.length;i++){
+                  $('.cont .fLeft').prepend(
+                        `<li><a href="">
+                              <div class="time">
+                              <h1>${res[i].time.split('-')[2].split('T')[0]}</h1>
+                              <span>${res[i].time.split('-')[1]}</span>
+                              </div>
+                              <h1>${res[i].title}</h1>
+                              <p>${res[i].cont}</p>
+                              <div class="tab">
+                                    <span>标签:${res[i].tab}</span>
+                                    <span>${res[i].time.split('T')[0]}</span>
+                              </div>
+                        </a></li>`
+                  )
+            }
+      }
+})
+
+
+
 var in1 = document.querySelector('.in1')
 var in2 = document.querySelector('.in2')
 var sub = document.querySelector('.sub')
 sub.onclick = function(){
     
-    $.ajax({
-        url: '../admin/user/find',
-        type: 'post',
-        data: {
-            name: $('.in1').val(),
-            password: $('.in2').val()
-        },
-        dataType: 'json',
-        success: function(res){
-            var str = '';
-            var pas = '';
-            for(var i = 0;i<res.length;i++){
-                str += res[i].username + '　　　'
-                pas += res[i].password + '　　　'
-            }
-            $('.show').append('<br> 帐号： '+str)
-            $('.show').append('<br> 密码： '+pas)
-        }
-    })
+//     $.ajax({
+//         url: '../admin/user/find',
+//         type: 'post',
+//         data: {
+//             name: $('.in1').val(),
+//             password: $('.in2').val()
+//         },
+//         dataType: 'json',
+//         success: function(res){
+//             var str = '';
+//             var pas = '';
+//             for(var i = 0;i<res.length;i++){
+//                 str += res[i].username + '　　　'
+//                 pas += res[i].password + '　　　'
+//             }
+//             $('.show').append('<br> 帐号： '+str)
+//             $('.show').append('<br> 密码： '+pas)
+//         }
+//     })
 }
 </script>
 </html>

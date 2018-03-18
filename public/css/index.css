@@ -27,8 +27,8 @@ header {
     max-width: 100%; }
   header nav {
     position: absolute;
-    right: 0;
-    top: 0; }
+    right: 20px;
+    top: 15px; }
     header nav * {
       color: #dcd6d6; }
     header nav li {
@@ -36,7 +36,7 @@ header {
       float: left; }
       header nav li a {
         padding: 10px 20px;
-        font-size: 15px;
+        font-size: 17px;
         text-decoration: none;
         display: inline-block;
         transition: .4s; }
@@ -72,11 +72,94 @@ header {
       letter-spacing: 2px; }
 
 .cont .fLeft {
-  border: 1px solid #ddd;
   float: left;
-  width: 74%; }
+  width: 74%;
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center; }
+  .cont .fLeft .pagation {
+    width: 100%;
+    display: block;
+    background: #e4e2e2;
+    font-size: 13px; }
+    .cont .fLeft .pagation a {
+      padding: 7px 0;
+      border: 1px solid transparent;
+      display: block;
+      transition: .5s; }
+      .cont .fLeft .pagation a:hover {
+        border: 1px solid #63a4dc; }
+  .cont .fLeft li {
+    width: 33.33%;
+    padding: 25px; }
+    .cont .fLeft li a {
+      border: 1px solid #f1f0f0;
+      background: #fff;
+      width: 100%;
+      display: inline-block;
+      position: relative;
+      min-height: 200px;
+      padding: 10px;
+      transition: .4s; }
+      .cont .fLeft li a:after {
+        content: '';
+        display: table;
+        clear: both; }
+      .cont .fLeft li a:hover {
+        box-shadow: -4px 4px 40px #d1d1d1;
+        border-color: #63a4dc; }
+      .cont .fLeft li a .time {
+        position: absolute;
+        background: #63a4dc;
+        left: 0;
+        width: 50px;
+        top: 0;
+        transform: translate(-50%, -50%);
+        height: 50px;
+        border-radius: 1px;
+        border: 1px solid #427caf; }
+        .cont .fLeft li a .time h1 {
+          color: #fff;
+          margin-bottom: -3px;
+          font-size: 22px; }
+        .cont .fLeft li a .time span {
+          color: #fff;
+          font-size: 15px; }
+      .cont .fLeft li a > h1 {
+        font-size: 18px;
+        text-align: left;
+        font-weight: 600;
+        position: relative;
+        padding-top: 10px;
+        overflow: hidden;
+        margin-left: 20px;
+        height: 35px; }
+        .cont .fLeft li a > h1:before {
+          content: '';
+          width: 30px;
+          height: 3px;
+          background: #63a4dc;
+          position: absolute;
+          top: 0;
+          left: 0; }
+      .cont .fLeft li a > p {
+        font-size: 12px;
+        text-align: left;
+        margin-top: 10px;
+        letter-spacing: 1px;
+        max-height: 115px;
+        overflow: hidden; }
+  .cont .fLeft .tab {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    font-size: 12px; }
+    .cont .fLeft .tab span + span {
+      margin-left: 15px; }
 .cont .fRight {
-  border: 1px solid #ddd;
+  border: 1px solid #f1ecec;
+  margin-top: 15px;
   float: right;
   width: 24%;
   background: #fff;
@@ -86,9 +169,27 @@ header {
     margin: 10px 0;
     width: 100px;
     height: 100px;
-    border: 1px solid #ddd;
+    border: 1px solid #f3f3f4;
     border-radius: 50%; }
   .cont .fRight .logo p {
     font-size: 14px; }
+  .cont .fRight .new-tab {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px; }
+    .cont .fRight .new-tab li {
+      width: 33.33%;
+      margin: 10px 0; }
+      .cont .fRight .new-tab li a {
+        font-size: 14px;
+        padding: 8px 0;
+        border-radius: 3px;
+        transition: .4s;
+        color: #fff;
+        background: #d6d5d5;
+        width: 80px;
+        display: inline-block; }
+    .cont .fRight .new-tab .active a, .cont .fRight .new-tab li:hover a {
+      background: #63a4dc; }
 
 /*# sourceMappingURL=index.css.map */
