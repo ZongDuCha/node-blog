@@ -9,8 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    // 前后端数据交互
+    "body-parser": "^1.18.2",
+    // web框架
     "express": "^4.16.3",
     "mongodb": "^3.0.4",
+    "mysql": "^2.15.0",
+    // 解析全段模版
     "swig": "^1.4.2"
   }
 }

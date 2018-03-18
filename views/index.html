@@ -8,6 +8,28 @@
     <link rel="stylesheet" type="text/css" href="/public/main.css">
 </head>
 <body>
-我的第一个node博客112
+<input type="text" name="name" class="in1" value="1">
+<input type="text" class="in2" value="1">
+<button class="sub">确认</button>
 </body>
+<script src="/public/jq.js"></script>
+<script>
+var in1 = document.querySelector('.in1')
+var in2 = document.querySelector('.in2')
+var sub = document.querySelector('.sub')
+sub.onclick = function(){
+    $.ajax({
+        url: '../admin//user/del',
+        type: 'post',
+        data:{
+            name: $('.in1').val(),
+            password: $('.in2').val()
+        },
+        dataType: 'json',
+        success: function(res){
+            alert(res)
+        }
+    })
+}
+</script>
 </html>

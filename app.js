@@ -2,7 +2,8 @@
 var express = require('express');
 var swig = require('swig');
 var app = express();
-var mongoose = require('mongoose')
+var bp = require('body-parser');
+
 
 // 配置当前使用的模版引擎
 // 模版后缀，模版解析
@@ -10,6 +11,8 @@ app.engine('html',swig.renderFile)
 app.set('views','./views')
 app.set('view engine','html')
 
+// bp
+app.use(bp.urlencoded({ extended: true }))
 swig.setDefaults({cache:false})
 
 // 定义不同路径的模块
@@ -28,8 +31,6 @@ app.get('/',function(req,res,next){
 app.use('/public',express.static(__dirname+'/public'))
 
 
-// 连接数据库
-mongoose.connect();
 // 开启端口
 app.listen(8080)
 // 用户发送http请求 -》url =》 解析路由 =》 找到匹配的规则 =》 执行指定绑定函数，返回对应内容给用户
