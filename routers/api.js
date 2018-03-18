@@ -19,7 +19,6 @@ function sel(sel,callback){
         if(!r){
             console.log('无该记录，，api-sel')
             callback(e,null)
-            return;
         }else{
             callback(e,r,n)
         }
@@ -28,7 +27,7 @@ function sel(sel,callback){
 }
 
 // 将数据 插入数据库中
-function isStay(sql,obj,callback){
+function add(sql,obj,callback){
     db.query(sql,obj,function(e,r,n){
         if(e) {
             console.log('添加失败，，api-isStay');
@@ -66,7 +65,7 @@ function del(sql,obj,callback){
 
 module.exports = {
     sel:sel,
-    isStay:isStay,
+    add:add,
     update: update,
     del: del
 }

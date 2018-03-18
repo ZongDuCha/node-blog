@@ -1,0 +1,119 @@
+*{
+    padding:0;margin:0;
+    color: #5a5454;
+    box-sizing: border-box;
+}
+a,li{
+    text-decoration: none;
+    list-style: none;
+}
+
+body{
+    background:#f6f6f7;
+}
+
+.container{
+    width:1200px;
+    margin:0 auto;
+    position: relative;
+    display: block;
+    &:after{
+        content:'';
+        display:table;
+        clear: both;
+    }
+}
+
+header{
+    position: relative;
+    .logo-bj{
+        max-width:100%;
+    }
+
+    nav{
+        position: absolute;
+        right: 0;top:0;
+
+        *{
+            color:#dcd6d6;;;
+        }
+
+        li{
+            list-style: none;
+            float:left;
+            a{
+                padding: 10px 20px;
+                font-size: 15px;
+                text-decoration: none;
+                display: inline-block;
+                transition:.4s;
+                &:hover{
+                    color:#fff;
+                }
+            }
+        }
+    }
+
+    .logo{
+        position: absolute;
+        top: 0;
+        background: rgba(255, 255, 255, 0.94);
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .tx{
+        position: absolute;
+        bottom: 15%;
+        z-index: 9;
+        left: 0;
+        right: 0;
+        margin: auto;
+        color: #fff;
+        text-align: center;
+
+        h1{
+            font-size:17px;    color: #fff;
+            margin-bottom: 10px;
+        }
+        p{
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+    }
+}
+
+.cont{
+    
+    
+    .fLeft{
+        border: 1px solid #ddd;
+        float:left;
+        width:74%;
+    }
+    .fRight{
+        border: 1px solid #ddd;
+        float:right;
+        width:24%;
+        background:#fff;
+        text-align:center;
+        padding:10px;
+        .logo{
+            img{
+                margin: 10px 0;
+                width: 100px;
+                height: 100px;
+                border: 1px solid #ddd;
+                border-radius: 50%;
+            }
+            p{
+                font-size: 14px;
+            }
+        }
+    }
+}

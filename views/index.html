@@ -5,12 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/public/main.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/index.css">
 </head>
 <body>
+<header>
+    <img src="/public/logo-bj.jpg" alt="" class="logo-bj">
+
+    <nav>
+        <li><a href="/">Home</a></li>
+        <li><a href="">Github</a></li>
+        <li><a href="">Juejin</a></li>
+        <li><a href="">About</a></li>
+    </nav>
+
+    <img src="/public/logonameimg.png" alt="" class="logo">
+    <div class="tx">
+        <h1>总督sir</h1>
+        <p>梦想还是要有的，万一实现了呢</p>
+    </div>
+</header>
+
+<div class="container cont">
+    <div class="fLeft">1</div>
+    <div class="fRight">
+        <div class="logo">
+            <img src="/public/logonameimg.png" alt="">
+            <p>
+                热爱技术的有为青年
+            </p>
+        </div>
+
+        <!-- new-tab -->
+        <div class="new-tab">
+            <li><a href="">全部</a></li>
+            <li><a href="">全部</a></li>
+            <li><a href="">全部</a></li>
+            <li><a href="">全部</a></li>
+            <li><a href="">全部</a></li>
+        </div>
+    </div>
+</div>
+
+
+
 <input type="text" name="name" class="in1" value="1">
 <input type="text" class="in2" value="1">
 <button class="sub">确认</button>
+<div class="show"></div>
+
+
 </body>
 <script src="/public/jq.js"></script>
 <script>
@@ -18,16 +61,24 @@ var in1 = document.querySelector('.in1')
 var in2 = document.querySelector('.in2')
 var sub = document.querySelector('.sub')
 sub.onclick = function(){
+    
     $.ajax({
-        url: '../admin//user/del',
+        url: '../admin/user/find',
         type: 'post',
-        data:{
+        data: {
             name: $('.in1').val(),
             password: $('.in2').val()
         },
         dataType: 'json',
         success: function(res){
-            alert(res)
+            var str = '';
+            var pas = '';
+            for(var i = 0;i<res.length;i++){
+                str += res[i].username + '　　　'
+                pas += res[i].password + '　　　'
+            }
+            $('.show').append('<br> 帐号： '+str)
+            $('.show').append('<br> 密码： '+pas)
         }
     })
 }
