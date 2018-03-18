@@ -67,10 +67,10 @@ router.post('/admin/login',function(q,s,n){
 
     var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
-        if(!r.length){
-            s.send('登陆失败')
+        if(r.length){
+            s.send(true)
         }else{
-            s.send('登陆成功')
+            s.send(false)
         }
     })
 })
@@ -83,9 +83,9 @@ router.post('/admin/logout',function(q,s,n){
     var obj = {username:name,password:password}
     add(sql,obj,function(e,r,n){
         if(!!e){
-            s.send('注册失败')
+            s.send(true)
         }else{
-            s.send('注册成功')
+            s.send(false)
         }
     })
 })

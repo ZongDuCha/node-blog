@@ -95,9 +95,18 @@ body{
         padding: 10px 5px;
         font-size: 13px;
         display: none;
+        transition: .2s;
+
+        &:hover{
+            background: #4e8cbe;
+        }
     }
     a.out{
         background:#c1bbbb;
+        transition: .2s;
+        &:hover{
+            background: #9e9a9a;
+        }
     }
     .active{
         display: block;

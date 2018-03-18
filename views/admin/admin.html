@@ -6,7 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>后台管理</title>
     <link rel="stylesheet" href="/public/admin/css/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
+<script>
+var un = sessionStorage.getItem('username')
+var ps = sessionStorage.getItem('password')
+if(!!un && !!ps){
+    axios.post('../api/admin/login',{
+        name: un,
+        password: ps
+    }).then(function(res){
+        if(!!res.data){
+            window.location.href = location.href + '/index'
+        }
+    })
+}
+</script>
 <body>
 
 <div class="login">
@@ -27,22 +42,7 @@
 </body>
 
 <!-- axios -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-var un = sessionStorage.getItem('username')
-var ps = sessionStorage.getItem('password')
-if(!!un && !!ps){
-    axios.post('../api/admin/login',{
-        name: un,
-        password: ps
-    }).then(function(res){
-        if(!!res.data){
-            // window.location.href = location.href + '/'
-        }
-    })
-}
-
-
 function getEl(x){
     return document.querySelector(x)
 }
@@ -72,8 +72,9 @@ In.onclick = function(){
         if(!!res.data){
             sessionStorage.setItem('username',Name.value)
             sessionStorage.setItem('password',Password.value)
+            alert('登陆成功')
         }else{
-            alert(res.data)
+            alert('账号不存在')
         }
      })
 }
@@ -84,12 +85,12 @@ Out.onclick = function(){
         name: Name.value,
         password: Password.value
      }).then(function(res){
-        if(!!res.data){
-            alert(res.data)
-            pOut.className = In.className = 'active in',
-            pIn.className = Out.className = ' out'
+        if(!res.data){
+            pOut.className = In.className = 'active in';
+            pIn.className = Out.className = ' out';
+            alert('注册成功')
         }else{
-            alert(res.data)
+            alert('注册失败')
         }
      })
 }

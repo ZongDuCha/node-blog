@@ -78,9 +78,15 @@ body {
     color: #fff;
     padding: 10px 5px;
     font-size: 13px;
-    display: none; }
+    display: none;
+    transition: .2s; }
+    .login a:hover {
+      background: #4e8cbe; }
   .login a.out {
-    background: #c1bbbb; }
+    background: #c1bbbb;
+    transition: .2s; }
+    .login a.out:hover {
+      background: #9e9a9a; }
   .login .active {
     display: block; }
   .login p {

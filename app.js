@@ -6,6 +6,7 @@ var bp = require('body-parser');
 
 
 // 配置当前使用的模版引擎
+// 定义静态文件的路径
 // 模版后缀，模版解析
 app.engine('html',swig.renderFile)
 app.set('views','./views')
@@ -24,12 +25,12 @@ app.use('/api',require('./routers/api'));
 app.get('/',function(req,res,next){
     // 指定文件
     // 模版文件，相对于views
-    res.render('index')
+    res.render('web/index')
 })
 
 // 创建后台管理页面
 app.get('/admin',function(req,res,next){
-    res.render('admin')
+    res.render('admin/admin')
 })
 
 
