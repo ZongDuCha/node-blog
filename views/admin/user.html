@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="/public/admin/css/user.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script>
+var un = sessionStorage.getItem('username')
+var ps = sessionStorage.getItem('password')
+if(!!un && !!ps){
+    axios.post('../api/admin/login',{
+        name: un,
+        password: ps
+    }).then(function(res){
+        if(!res.data){
+            window.location.href = location.origin + '/admin'
+        }
+    })
+}else{
+    window.location.href = location.origin + '/admin'
+}
+</script>
+<div class="user-header">
+    <div class="fLeft"><a href="">后台管理中心</a></div>
+    <div class="fRight">
+        <li><a href="javascrit:;">总督</a>
+            <ul class="nav-class">
+                <li><a href="">帐号管理</a></li>
+                <li><a href="" class="exit">退出系统</a></li>
+            </ul>
+        </li>
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="fLeft">
+        <li>
+            <a href="">首页<div class="down">></div></a>
+        </li>
+
+        <li>
+            <a href="javascript:;">文章管理<div class="down">></div></a>
+
+            <ul class="tab-class">
+                <li><a href="">文章资讯</a></li>
+                <li><a href="">分类管理</a></li>
+            </ul>
+        </li>
+
+        <li><a href="">帐号管理</a></li>
+    </div>
+
+    <div class="fRight">
+        <iframe src="" frameborder="0"></iframe>
+    </div>
+</div>
+</body>
+<script>
+function getEl(e,p){
+    return (p || document).querySelector(e)
+}
+function getAll(e,p){
+    return (p || document).querySelectorAll(e)
+}
+
+// 退出系统
+var exit = getEl('.exit')
+exit.onclick = function(){
+    sessionStorage.removeItem('username')
+    sessionStorage.removeItem('passwrod')
+    window.location.href = location.origin + '/admin'
+}
+
+
+// left tab切换
+var wrapA = getAll('.wrapper .fLeft>li');
+wrapA.forEach(function(v,i){
+    wrapA[i].onclick = function(e){
+        console.log(this)
+        var b = getEl('.tab-class',wrapA[i])
+        var y = b.style.display
+        b.style.display = y == 'none' ? 'block' : 'none';
+        e.stopPropagation()
+        e.preventDefault()
+    }
+})
+
+</script>
+</html>

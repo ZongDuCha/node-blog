@@ -17,7 +17,7 @@ if(!!un && !!ps){
         password: ps
     }).then(function(res){
         if(!!res.data){
-            window.location.href = location.href + '/index'
+            window.location.href = location.href + '/user'
         }
     })
 }
@@ -73,6 +73,7 @@ In.onclick = function(){
             sessionStorage.setItem('username',Name.value)
             sessionStorage.setItem('password',Password.value)
             alert('登陆成功')
+            window.location.href = location.href + '/user'
         }else{
             alert('账号不存在')
         }
