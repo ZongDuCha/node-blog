@@ -7,4 +7,10 @@ router.get('/user',function(req,res,next){
 })
 
 
+// 后台文章管理
+router.get('/admin-new',function(req,res,next){
+    res.render('admin/admin-new')
+})
+
+
 module.exports = router;

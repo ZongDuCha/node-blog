@@ -40,7 +40,7 @@ if(!!un && !!ps){
 <div class="wrapper">
     <div class="fLeft">
         <li>
-            <a href="">首页<div class="down">></div></a>
+            <a href="">首页</a>
         </li>
 
         <li>
@@ -52,15 +52,21 @@ if(!!un && !!ps){
             </ul>
         </li>
 
-        <li><a href="">帐号管理</a></li>
+        <li><a href="javascript:;">帐号管理<div class="down">></div></a>
+            <ul class="tab-class">
+                <li><a href="">所有帐号</a></li>
+            </ul>
+        </li>
     </div>
 
     <div class="fRight">
-        <iframe src="" frameborder="0"></iframe>
+        <iframe src="./admin-new" frameborder="0"></iframe>
     </div>
 </div>
 </body>
 <script>
+
+
 function getEl(e,p){
     return (p || document).querySelector(e)
 }
@@ -81,12 +87,10 @@ exit.onclick = function(){
 var wrapA = getAll('.wrapper .fLeft>li');
 wrapA.forEach(function(v,i){
     wrapA[i].onclick = function(e){
-        console.log(this)
         var b = getEl('.tab-class',wrapA[i])
         var y = b.style.display
-        b.style.display = y == 'none' ? 'block' : 'none';
-        e.stopPropagation()
-        e.preventDefault()
+        // 基础差点被坑了一次, 一开始y是没有style的，所以none
+        b.style.display =  (y == 'none' || y == '') ? 'block' : 'none';
     }
 })
 
