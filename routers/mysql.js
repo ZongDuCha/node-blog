@@ -53,7 +53,7 @@ function update(sql,obj,callback){
 
 
 function del(sql,obj,callback){
-    db.query(sql,obj,function(e,r,n){
+    db.query(sql,obj || '',function(e,r,n){
         if(e){
             console.log('删除失败，，api-del')
             callback(e,null)

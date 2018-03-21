@@ -9,10 +9,15 @@
 </head>
 <body>
 <div class="container-fluid panel-def">
-    <div class="crumbs">
+    <div class="crumbs fLeft">
         <span>当前位置:</span>
         <li><a href="/admin-index">首页</a></li>
         <li><a href="">文章资讯</a></li>
+    </div>
+
+    <div class="fRight">
+        <a href="">添加文章</a>
+        <a href="">删除全部</a>
     </div>
 </div>
 
@@ -46,17 +51,50 @@ function getEl(e,p){
 var cont = getEl('.news-cont')
 axios.post('../api/admin/newsAll').then(function(res){
     if(res.data){
+        var str = '';
         res.data.forEach(function(e,i){
-            cont.innerHTML = '<div class="news-list"><li>'
+            str += '<div class="news-list"><li>'
                 +res.data[i].id+'</li><li>'
                 +res.data[i].title+'</li><li>'
                 +res.data[i].cont+'</li><li>'
-                +res.data[i].time+'</li><li>很多操作</li> </div>'
+                +res.data[i].time.split('T')[0]+'</li><li><a href="javascript:;" onclick="del('
+                +res.data[i].id+')">删除</a><a href="javascript:;">编辑</a></li> </div>'
         });
-        
+        cont.innerHTML = str
     }
 }).catch(function(err){
     console.log(err)
 })
+
+/*
+    删除文章记录
+    i 文章id
+*/
+function del(x){
+    axios.post('../api/admin/newsFind',{
+        id: x
+    }).then(function(res){
+        if(res.data){
+            axios.post('../api/admin/delNews',{
+                id:x
+            }).then(function(res){
+                console.log(res.data)
+            })
+        }else{
+            alert('文章不存在')
+            window.location.reload()
+        }
+    })
+}
+
+
+/*
+    编辑文章
+*/
+/*axios.post('../api/admin/newInfo',{
+}).then(function(res){
+    console.log(res.data)
+})
+*/
 </script>
 </html>

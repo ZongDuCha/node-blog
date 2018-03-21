@@ -99,6 +99,32 @@ router.post('/admin/newsAll',function(q,s,n){
     })
 })
 
+// 后台-- 获取单条文章记录
+router.post('/admin/newsFind',function(q,s,n){
+    var i = q.body.id
+    var sql = 'select * from news where id='+i;
+    sel(sql,function(e,r,n){
+        if(r.length || r.id == i){
+            s.send(true)
+        }else{
+            s.send(false)
+        }
+    })
+})
+
+// 后台-- 删除单条文章记录
+router.post('/admin/delNews',function(q,s,n){
+    var i = q.body.id
+    var sql = 'delete from news where id='+i;
+    var obj = {id:i}
+    del(sql,obj,function(e,r,n){
+        if(r){
+            s.send(true)
+        }else{
+            s.send(false)
+        }
+    })
+})
 
 
 module.exports = router;
