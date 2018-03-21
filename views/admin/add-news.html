@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加文章</title>
+    <link rel="stylesheet" href="/public/admin/css/main.css">
+    <script type="text/javascript" charset="utf-8" src="/public/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/public/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/public/ueditor/lang/zh-cn/zh-cn.js"> </script>
+</head>
+<body>
+<div class="container-fluid panel-def">
+    <div class="crumbs fLeft">
+        <span>当前位置:</span>
+        <li><a href="/admin-index">首页</a></li>
+        <li><a href="">文章资讯</a></li>
+        <li><a href="">添加文章</a></li>
+    </div>
+
+    <div class="fRight">
+        <a href="javascript:;" onclick="getContent()">确认发布</a>
+    </div>
+</div>
+
+<input type="text" class="title" placeholder='请输入文章标题'>
+<input type="text" class="tab" placeholder='请输入文章分类   以,分割'>
+<script id="editor" type="text/plain" style="width:100%;height:500px;margin-top:5px;"></script>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+function getEl(e,q){
+    return (q||document).querySelector(e)
+}
+var ue = UE.getEditor('editor')
+var arr = [];
+function getContent(ue) {
+    var title = getEl('.title').value;
+    var tab = getEl('.tab').value;
+    
+    if(title == ''){
+        alert('标题不能为空')
+        return;
+    }
+    if(tab == ''){
+        alert('分类不能为空');
+        return;
+    }
+    
+    arr.push(UE.getEditor('editor').getContent());
+    var yuer = new Date().getFullYear();
+    var mon = new Date().getMonth()+1;
+    var day = new Date().getDate();
+    var s = yuer+'-'+mon+'-'+day;
+    
+    axios.post('../api/admin/modNews',{
+        title: title,
+        cont: arr.join('\n'),
+        tab: tab,
+        time: s
+    }).then(function(res){
+        if(res.data){
+            window.location.href = window.location.origin+'/admin/admin-new'
+        }else{
+            alert('请重试')
+        }
+    })
+}
+</script>
+</html>

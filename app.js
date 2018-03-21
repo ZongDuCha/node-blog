@@ -29,7 +29,10 @@ app.get('/admin',function(req,res,next){
     res.render('admin/admin')
 })
 // 定义静态文件访问的路径
-app.use('/public',express.static(__dirname+'/public'))
+app.use('/public',express.static(__dirname+'/public'));
+
+//百度富文本
+app.use('./ueditor/ue',require('./ue'))
 // 开启端口
 app.listen(4040)
 // 用户发送http请求 -》url =》 解析路由 =》 找到匹配的规则 =》 执行指定绑定函数，返回对应内容给用户

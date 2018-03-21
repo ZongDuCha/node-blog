@@ -29,6 +29,19 @@
     }
 }
 
+
+.tab,.title{
+    width: 100%;
+    padding: 10px;
+    border-radius: 9px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 6px #ddd;
+    transition: .4s;margin:5px 0;
+    font-size: 15px;
+    &:focus{
+        box-shadow: 0 0 6px rgb(165, 199, 235);
+    }
+}
 .news-wrap{
     display:block;
     margin-top: 20px;

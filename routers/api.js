@@ -126,5 +126,22 @@ router.post('/admin/delNews',function(q,s,n){
     })
 })
 
+// 后台--添加和修改文章
+router.post('/admin/modNews',function(q,s,n){
+    var t = q.body.title,
+        c = q.body.cont,
+        b = q.body.tab,
+        m = q.body.time
+        sql = 'INSERT INTO news SET  ?',
+        obj = {title:t,cont:c,time:m,tab:b};
+    add(sql,obj,function(e,r,n){
+        if(r){
+            s.send(true)
+        }else{
+            s.send(false)
+        }
+    })
+})
+
 
 module.exports = router;

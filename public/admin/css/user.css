@@ -698,8 +698,9 @@ blockquote, .blockquote {
   border-radius: 5px;
   transition: .3s;
   text-align: center; }
-  [class*=bt-] + .prev, [class*=bt-] + .next {
-    font-family: '黑体'; }
+  [class*=bt-].prev, [class*=bt-].next {
+    font-family: '黑体';
+    line-height: 21px; }
 
 .bt-def, .bt-line {
   cursor: pointer;
