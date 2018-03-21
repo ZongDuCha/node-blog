@@ -89,7 +89,7 @@ wrapA.forEach(function(v,i){
     wrapA[i].onclick = function(e){
         var b = getEl('.tab-class',wrapA[i])
         var y = b.style.display
-        // 基础差点被坑了一次, 一开始y是没有style的，所以none
+        // 基础差点，一开始style是没有display值的
         b.style.display =  (y == 'none' || y == '') ? 'block' : 'none';
     }
 })

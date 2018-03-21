@@ -3,6 +3,9 @@ var express = require('express');
 var swig = require('swig');
 var app = express();
 var bp = require('body-parser');
+
+// 取消缓存
+swig.setDefaults({cache:false})
 // 配置当前使用的模版引擎
 app.engine('html',swig.renderFile)
 // 定义静态文件的路径
@@ -28,6 +31,6 @@ app.get('/admin',function(req,res,next){
 // 定义静态文件访问的路径
 app.use('/public',express.static(__dirname+'/public'))
 // 开启端口
-app.listen(8080)
+app.listen(4040)
 // 用户发送http请求 -》url =》 解析路由 =》 找到匹配的规则 =》 执行指定绑定函数，返回对应内容给用户
 // /public -> 静态 =》 直接读取指定目录下的文件，返回给用户 =》 动态 =》 处理业务逻辑，计息模版 =》 返回数据给用户

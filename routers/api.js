@@ -91,5 +91,14 @@ router.post('/admin/logout',function(q,s,n){
 })
 
 
+// 后台-- 获取所有文章
+router.post('/admin/newsAll',function(q,s,n){
+    var sql = 'select * from news';
+    sel(sql,function(e,r,n){
+        s.send(r)
+    })
+})
+
+
 
 module.exports = router;
