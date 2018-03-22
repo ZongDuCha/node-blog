@@ -65,8 +65,26 @@ function run(i,res){
 
 var cont = getEl('.news-list');
 
-function newAll(q){
-        this.className = 'active';
+function newAll(q,_this){
+        if(_this != null){
+            var par = _this.parentNode;
+            par.className = 'active';
+            var p= par.previousSibling;
+            var n= par.nextSibling;
+            while (p) {
+                if( p.nodeType === 1){
+                    p.className = '';
+                }
+                p= p.previousSibling;
+            }
+            while (n) {
+                if( n.nodeType === 1){
+                    n.className = '';
+                }
+                n= n.nextSibling;
+            }
+        }
+
         var b = '';
         if(q == null || q==='max'){
             axios.post('../api/user/index').then(function(res){
@@ -91,7 +109,20 @@ function newAll(q){
             axios.post('../api/user/tabNews',{
                 tab: q
             }).then(function(res){
-                console.log(res.data)
+                for(var i=0;i<res.data.length;i++){
+                    b += `<li><a href="">
+                                <div class="time">
+                                <h1>${res.data[i].time.split('-')[2].split('T')[0]}</h1>
+                                <span>${res.data[i].time.split('-')[1]}</span>
+                                </div>
+                                <h1>${res.data[i].title}</h1>
+                                <p>${res.data[i].cont}</p>
+                                <div class="tab">`+
+                                run(i,res.data)+
+                                `</div>
+                        </a></li>`;
+                }
+                cont.innerHTML = b
             }).catch(function(err){
                 console.log(err)
             })
@@ -117,9 +148,9 @@ axios.post('../api/admin/newsAll').then(function(res){
                 }
             }
         }
-        var st = `<li class="active"><a href="javascript:;" onclick="newAll('max')">全部</a></li>`
+        var st = `<li class="active"><a href="javascript:;" onclick="newAll('max',this)">全部</a></li>`
         for(var k = 0;k<tabCl.length;k++){
-            st += `<li><a href="javascript:;" onclick="newAll('${tabCl[k]}')">${tabCl[k]}</a></li>`
+            st += `<li><a href="javascript:;" onclick="newAll('${tabCl[k]}',this)">${tabCl[k]}</a></li>`
         }
         newTab.innerHTML = st
     }

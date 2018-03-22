@@ -63,9 +63,14 @@ router.post('/user/tabNews',function(q,s,n){
     var tab = q.body.tab
     var sql = "select * from `news`";
     sel(sql,function(e,r,n){
+        var str = [];
         for(var i=0;i<r.length;i++){
-            console.log(r[i].tab)
+            var arr = r[i].tab.split(',');
+            if(arr.indexOf(tab) >= 0){
+                str.push(r[i])
+            }
         }
+        s.send(str)
     })
 })
 

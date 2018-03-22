@@ -3,7 +3,6 @@ var express = require('express');
 var swig = require('swig');
 var app = express();
 var bp = require('body-parser');
-
 // 取消缓存
 swig.setDefaults({cache:false})
 // 配置当前使用的模版引擎
@@ -30,7 +29,6 @@ app.get('/admin',function(req,res,next){
 })
 // 定义静态文件访问的路径
 app.use('/public',express.static(__dirname+'/public'));
-
 //百度富文本
 app.use('./ueditor/ue',require('./ue'))
 // 开启端口
