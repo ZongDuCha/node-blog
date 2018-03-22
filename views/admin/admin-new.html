@@ -17,7 +17,7 @@
 
     <div class="fRight">
         <a href="./add-news">添加文章</a>
-        <a href="">删除全部</a>
+        <a href="javascript:;" onclick="delAll()">删除全部</a>
     </div>
 </div>
 
@@ -59,7 +59,7 @@ axios.post('../api/admin/newsAll').then(function(res){
                 +res.data[i].id+'</li><li>'
                 +res.data[i].title+'</li><li>'
                 +res.data[i].cont+'</li><li>'
-                +res.data[i].time.split('T')[0]+'</li><li><a href="javascript:;" onclick="del('
+                +res.data[i].time+'</li><li><a href="javascript:;" onclick="del('
                 +res.data[i].id+')">删除</a><a href="javascript:;">编辑</a></li> </div>'
         });
         cont.innerHTML = str
@@ -80,7 +80,9 @@ function del(x){
             axios.post('../api/admin/delNews',{
                 id:x
             }).then(function(res){
-                console.log(res.data)
+                if(res.data){
+                    window.location.reload(true)
+                }
             })
         }else{
             alert('文章不存在')
@@ -89,14 +91,17 @@ function del(x){
     })
 }
 
+function delAll(){
+    axios.post('../api/admin/delAll').then(function(res){
+        if(res.data){
+            window.location.reload(true)
+        }else{
+            alert('删除失败')
+        }
+    })
+}
 
-/*
-    编辑文章
-*/
-/*axios.post('../api/admin/newInfo',{
-}).then(function(res){
-    console.log(res.data)
-})
-*/
+
+
 </script>
 </html>

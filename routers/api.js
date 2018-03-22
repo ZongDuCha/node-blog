@@ -67,11 +67,7 @@ router.post('/admin/login',function(q,s,n){
 
     var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
-        if(r.length){
-            s.send(true)
-        }else{
-            s.send(false)
-        }
+        r ? s.send(true) :  s.send(false)
     })
 })
 
@@ -104,11 +100,7 @@ router.post('/admin/newsFind',function(q,s,n){
     var i = q.body.id
     var sql = 'select * from news where id='+i;
     sel(sql,function(e,r,n){
-        if(r.length || r.id == i){
-            s.send(true)
-        }else{
-            s.send(false)
-        }
+        r ? s.send(true) :  s.send(false)
     })
 })
 
@@ -118,11 +110,7 @@ router.post('/admin/delNews',function(q,s,n){
     var sql = 'delete from news where id='+i;
     var obj = {id:i}
     del(sql,obj,function(e,r,n){
-        if(r){
-            s.send(true)
-        }else{
-            s.send(false)
-        }
+        r ? s.send(true) :  s.send(false)
     })
 })
 
@@ -135,11 +123,16 @@ router.post('/admin/modNews',function(q,s,n){
         sql = 'INSERT INTO news SET  ?',
         obj = {title:t,cont:c,time:m,tab:b};
     add(sql,obj,function(e,r,n){
-        if(r){
-            s.send(true)
-        }else{
-            s.send(false)
-        }
+        r ? s.send(true) :  s.send(false)
+    })
+})
+
+
+// 后台--删除全部文章
+router.post('/admin/delAll',function(q,s,n){
+    var sql = 'delete from news';
+    del(sql,function(e,r,n){
+        r ? s.send(true) :  s.send(false)
     })
 })
 
