@@ -16,7 +16,7 @@
     </div>
 
     <div class="fRight">
-        <a href="./add-news">添加文章</a>
+        <a href="./mod-news">添加文章</a>
         <a href="javascript:;" onclick="delAll()">删除全部</a>
     </div>
 </div>
@@ -58,9 +58,10 @@ axios.post('../api/admin/newsAll').then(function(res){
             str += '<div class="news-list"><li>'
                 +res.data[i].id+'</li><li>'
                 +res.data[i].title+'</li><li>'
-                +res.data[i].cont+'</li><li>'
+                +res.data[i].tab+'</li><li>'
                 +res.data[i].time+'</li><li><a href="javascript:;" onclick="del('
-                +res.data[i].id+')">删除</a><a href="javascript:;">编辑</a></li> </div>'
+                +res.data[i].id+')">删除</a><a href="./mod-news?id='
+                +res.data[i].id+';">编辑</a></li> </div>'
         });
         cont.innerHTML = str
     }
@@ -69,7 +70,7 @@ axios.post('../api/admin/newsAll').then(function(res){
 })
 
 /*
-    删除文章记录
+    删除单条文章记录
     i 文章id
 */
 function del(x){
@@ -91,6 +92,9 @@ function del(x){
     })
 }
 
+
+
+// 删除全部文章记录
 function delAll(){
     axios.post('../api/admin/delAll').then(function(res){
         if(res.data){

@@ -51,13 +51,26 @@ router.post('/user/del',function(q,s,n){
 
 // 以上为入门实例
 
-// 获取首页全部的文章
+// 获取首页文章
 router.post('/user/index',function(q,s,n){
-    var sql = 'select * from `news`'
+        var sql = 'select * from `news`';
+        sel(sql,function(e,r,n){
+            s.json(r)
+        })
+})
+
+router.post('/user/tabNews',function(q,s,n){
+    var tab = q.body.tab
+    var sql = "select * from `news`";
     sel(sql,function(e,r,n){
-        s.json(r)
+        for(var i=0;i<r.length;i++){
+            console.log(r[i].tab)
+        }
     })
 })
+
+
+/****************************************************************************** */
 
 
 // 后台登陆
@@ -100,7 +113,7 @@ router.post('/admin/newsFind',function(q,s,n){
     var i = q.body.id
     var sql = 'select * from news where id='+i;
     sel(sql,function(e,r,n){
-        r ? s.send(true) :  s.send(false)
+        r ? s.send(r) :  s.send(false)
     })
 })
 

@@ -73,21 +73,24 @@ header {
 
 .cont .fLeft {
   float: left;
-  width: 74%;
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center; }
+  width: 76%; }
+  .cont .fLeft .news-list {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center; }
   .cont .fLeft .pagation {
     width: 100%;
     display: block;
     background: #e4e2e2;
-    font-size: 13px; }
+    font-size: 13px;
+    margin-bottom: 20px; }
     .cont .fLeft .pagation a {
       padding: 7px 0;
       border: 1px solid transparent;
       display: block;
-      transition: .5s; }
+      transition: .5s;
+      text-align: center; }
       .cont .fLeft .pagation a:hover {
         border: 1px solid #63a4dc; }
   .cont .fLeft li {
@@ -127,14 +130,14 @@ header {
           color: #fff;
           font-size: 15px; }
       .cont .fLeft li a > h1 {
-        font-size: 18px;
+        font-size: 16px;
         text-align: left;
         font-weight: 600;
         position: relative;
         padding-top: 10px;
         overflow: hidden;
         margin-left: 20px;
-        height: 35px; }
+        height: 30px; }
         .cont .fLeft li a > h1:before {
           content: '';
           width: 30px;
@@ -155,6 +158,12 @@ header {
     left: 10px;
     bottom: 10px;
     font-size: 12px; }
+    .cont .fLeft .tab span {
+      background: #f6f6f7;
+      display: inline-block;
+      padding: 0px 8px;
+      border-radius: 2px;
+      border: 1px solid #ddd; }
     .cont .fLeft .tab span + span {
       margin-left: 15px; }
 .cont .fRight {

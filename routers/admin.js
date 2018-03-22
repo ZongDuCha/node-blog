@@ -16,8 +16,8 @@ router.get('/admin-new',function(req,res,next){
 
 
 // 后台添加文章
-router.get('/add-news',function(req,res,next){
-    res.render('admin/add-news')
+router.get('/mod-news',function(req,res,next){
+    res.render('admin/mod-news')
 })
 
 

@@ -95,23 +95,27 @@ header{
     
     .fLeft{
         float:left;
-        width:74%;
-        margin-top: 15px;
-        display:flex;
-        flex-wrap:wrap;
-        text-align: center;
+        width:76%;
+
+        .news-list{
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+        }
 
         .pagation{
             width: 100%;
             display: block;
             background: #e4e2e2;
             font-size: 13px;
+            margin-bottom:20px;
             
             a{
                 padding: 7px 0;
                 border:1px solid transparent;
                 display: block;
-                transition: .5s;
+                transition: .5s;    text-align: center;
 
                 &:hover{
                     border:1px solid $color;
@@ -157,13 +161,14 @@ header{
                 }
 
                 >h1{
-                    font-size: 18px;
+                    font-size: 16px;
                     text-align: left;
                     font-weight: 600;
                     position: relative;
                     padding-top: 10px;
-                    overflow: hidden;margin-left: 20px;
-                    height: 35px;
+                    overflow: hidden;
+                    margin-left: 20px;
+                    height: 30px;
 
                     &:before{
                         content:'';
@@ -188,6 +193,14 @@ header{
             left: 10px;
             bottom: 10px;
             font-size: 12px;
+
+            span{
+                background: #f6f6f7;
+                display: inline-block;
+                padding: 0px 8px;
+                border-radius: 2px;
+                border: 1px solid #ddd;
+            }
             span+span{
                 margin-left:15px;
             }
