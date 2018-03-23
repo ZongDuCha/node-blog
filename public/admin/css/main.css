@@ -699,7 +699,7 @@ blockquote, .blockquote {
   transition: .3s;
   text-align: center; }
   [class*=bt-].prev, [class*=bt-].next {
-    font-family: '黑体';
+    font-family: '榛戜綋';
     line-height: 21px; }
 
 .bt-def, .bt-line {
@@ -1196,6 +1196,12 @@ blockquote, .blockquote {
     .user .user--list span {
       margin-right: 15px;
       width: 70px; }
+    .user .user--list img {
+      max-width: 40px;
+      border: 1px solid #ddd;
+      max-height: 40px;
+      margin-right: 20px;
+      vertical-align: bottom; }
     .user .user--list .user-mod {
       flex: 1; }
       .user .user--list .user-mod input, .user .user--list .user-mod textarea {
@@ -1204,9 +1210,17 @@ blockquote, .blockquote {
         border-radius: 5px;
         border: 1px solid transparent;
         transition: .3s;
-        background: rgba(0, 0, 0, 0); }
+        background: rgba(0, 0, 0, 0);
+        color: #151414;
+        font-size: 17px; }
         .user .user--list .user-mod input:focus, .user .user--list .user-mod textarea:focus {
           border: 1px solid #0b8ad8;
           background: #fff; }
+      .user .user--list .user-mod .file {
+        width: 200px;
+        border: none;
+        font-size: 13px;
+        padding: 3px 8px;
+        cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */

@@ -20,11 +20,16 @@
     <h1 class="user-title">个人资料</h1>
     <div class="user--list">
         <span>头像</span>
+        <div class="user-mod">
+            <img src="/public/web/logonameimg.png" alt="">
+            <input type="file" name="" value="123" id="" class="file">
+            <span>请上传 jpg | png</span>
+        </div>
     </div>
     <div class="user--list">
         <span>用户名</span>
         <div class="user-mod">
-            <input type="text" placeholder="你觉得什么用户名最合适你呢" id="name" onblur="comp(this.value)">
+            <input type="text" disabled placeholder="你觉得什么用户名最合适你呢" id="name" onblur="comp(this.value)">
         </div>
     </div>
 
@@ -53,12 +58,21 @@
 </div>
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/public/admin/isLogin.js"></script>
 <script>
+var Name = getEl('#name'),
+    Intr = getEl('#intr'),
+    Web = getEl('#web'),
+    Comp = getEl('#comp');
 axios.post('../api/admin/keep-user',{
-    name: name
+    name: un
 }).then(function(res){
-    if(res.data){
-        console.log(res.data)
+    if(res.data.length){
+        var r = res.data[0];
+        Name.value = r.username || '';
+        Intr.value = r.intr || '';
+        Web.value = r.web || '';
+        Comp.value = r.comp || '';
     }else{
         console.log('获取失败')
     }
@@ -67,17 +81,70 @@ function getEl(e,p){
     return (p||document).querySelector(e)
 }
 
-var name = getEl('#name');
+
 function comp(q){
     var _id = this.event.path[0].id
     switch(_id){
         case 'name':
+        sendData('username',q,un)
+        break;
+        case 'intr':
+        sendData('intr',q,un)
+        break;
+        case 'web':
+        sendData('web',q,un)
+        break;
+        case 'comp':
+        sendData('comp',q,un)
         break;
     }
 }
 
-function sendData(){
-    axios.post()
+// 列名 -- 要修改的数据 -- 条件
+function sendData(list,data,cond){
+    
+    axios.post('../api/admin/heat-user',{
+        l: list,
+        d: data,
+        c: cond
+    }).then(function(r){
+        console.log(r.data)
+    })
+}
+
+
+// 获取获取file对象
+var fl = getEl('[type=file]')
+fl.onchange = function(){
+    var data = this.files[0],
+        name = data.name,
+        size = data.size,
+        type = name.split('.')[1]
+    if(type != 'jpg' && type != 'png'){
+        alert('请上传jpg或者png')
+        fl.value = null
+        return;
+    }
+    if(size/1024/1024 > 5){
+        alert('上传文件请勿超过5mb')
+        fl.value = null
+        return;
+    }
+
+    let param = new FormData()
+    param.append('file', data, name)
+    param.append('chunk', '0')
+    let config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+    }
+    // 添加请求头
+    axios.post('../api/admin/img', param, config)
+        .then(response => {
+        if (response.data.code === 0) {
+        self.ImgUrl = response.data.data
+        }
+        console.log(response.data)
+    })
 }
 </script>
 </html>

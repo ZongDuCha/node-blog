@@ -151,6 +151,15 @@
             margin-right: 15px;
             width:70px;
         }
+        img{
+            max-width: 40px;
+            border: 1px solid #ddd;
+            max-height: 40px;
+            margin-right: 20px;
+            vertical-align: bottom;
+        }
+
+        
 
         .user-mod{
             flex:1;
@@ -161,10 +170,20 @@
                 border:1px solid transparent;
                 transition:.3s;
                 background:rgba(0,0,0,0);
+                color: #151414;
+                font-size: 17px;
                 &:focus{
                     border:1px solid #0b8ad8;
                     background:#fff;
                 }
+            }
+
+            .file{
+                width: 200px;
+                border: none;
+                font-size: 13px;
+                padding: 3px 8px;
+                cursor: pointer;
             }
         }
     }

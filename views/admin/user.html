@@ -7,24 +7,10 @@
     <title>后台管理</title>
     <link rel="stylesheet" href="/public/admin/css/user.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/public/admin/isLogin.js"></script>
 </head>
 <body>
-<script>
-var un = sessionStorage.getItem('username')
-var ps = sessionStorage.getItem('password')
-if(!!un && !!ps){
-    axios.post('../api/admin/login',{
-        name: un,
-        password: ps
-    }).then(function(res){
-        if(!res.data){
-            window.location.href = location.origin + '/admin'
-        }
-    })
-}else{
-    window.location.href = location.origin + '/admin'
-}
-</script>
+
 <div class="user-header">
     <div class="fLeft"><a href="">后台管理中心</a></div>
     <div class="fRight">

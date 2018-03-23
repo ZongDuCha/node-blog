@@ -178,14 +178,31 @@ router.post('/admin/delAll',function(q,s,n){
 })
 
 
-// 后台--保存个人资料
+// 后台--获取个人资料
 router.post('/admin/keep-user',function(q,s,n){
-    var username = q.body.name
-    var sql = 'select * from blog where id="'+username+'"';
+    var username = q.body.name;
+    var sql = 'select * from blog where username="'+username+'"';
+    console.log(username)
     sel(sql,function(e,r,n){
+        console.log(e,r)
         s.send(r)
     })
 })
 
+
+// 实时更新个人资料
+router.post('/admin/heat-user',function(q,s,n){
+    var l = q.body.l,
+        d = q.body.d,
+        c = q.body.c;
+        sql = 'update blog set '+l+'="'+d+'" where username="'+c+'"'
+    update(sql,function(e,r,n){
+        console.log(e,r)
+    })
+})
+
+router.post('/admin/img',function(q,s,n){
+    console.log(q.body)
+})
 
 module.exports = router;
