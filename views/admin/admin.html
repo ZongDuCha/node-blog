@@ -26,12 +26,12 @@ if(!!un && !!ps){
 
 <div class="login">
     <li>
-        <span>账号：</span>
-        <input type="text" placeholder="请输入您的账号" class="name">
+        <span>用户名：</span>
+        <input type="text" placeholder="请输入您的用户名" class="name">
     </li>
     <li>
-        <span>密码：</span>
-        <input type="password" placeholder="请输入您的密码" class="password">
+        <span>密　码：</span>
+        <input type="password" placeholder="请输入您的密码" class="password" onkeydown="isLogin()">
     </li>
 
     <a href="javascript:;" class="active in">登陆</a>
@@ -48,7 +48,6 @@ function getEl(x){
 }
 var In = getEl('.in')
 var Out = getEl('.out')
-
 var pOut = getEl('.pOut')
 var pIn = getEl('.pIn')
 // 回到登陆，点击注册按钮切换
@@ -60,41 +59,48 @@ pIn.onclick = function(){
     pOut.className = In.className = 'active in',
     pIn.className = Out.className = ' out'
 }
-
 var Name = document.querySelector('.name')
 var Password = getEl('.password')
 // 登陆
-In.onclick = function(){
-     axios.post('../api/admin/login',{
-        name: Name.value,
-        password: Password.value
-     }).then(function(res){
-        if(!!res.data){
-            sessionStorage.setItem('username',Name.value)
-            sessionStorage.setItem('password',Password.value)
-            alert('登陆成功')
-            window.location.href = location.href + '/user'
-        }else{
-            alert('账号不存在')
-        }
-     })
+var login = In.onclick = function(){
+        axios.post('../api/admin/login',{
+            name: Name.value,
+            password: Password.value
+        }).then(function(res){
+            if(res.data.length > 0){
+                sessionStorage.setItem('username',Name.value)
+                sessionStorage.setItem('password',Password.value)
+                alert('登陆成功')
+                window.location.href = location.href + '/user'
+            }else{
+                alert('账号不存在')
+            }
+        })
 }
-
 // 注册
-Out.onclick = function(){
-    axios.post('../api/admin/logout',{
-        name: Name.value,
-        password: Password.value
-     }).then(function(res){
-        if(!res.data){
-            pOut.className = In.className = 'active in';
-            pIn.className = Out.className = ' out';
-            alert('注册成功')
-            window.location.href = location.href + '/user'
+var logout = Out.onclick = function(){
+        axios.post('../api/admin/logout',{
+            name: Name.value,
+            password: Password.value
+        }).then(function(res){
+            if(!!res.data){
+                pOut.className = In.className = 'active in';
+                pIn.className = Out.className = ' out';
+                alert('注册成功')
+            }else{
+                alert('注册失败')
+            }
+        })
+}
+// 判断注册或登录
+function isLogin(){
+    if(window.event.keyCode == 13){
+        if(pOut.className == 'in'){
+            logout()
         }else{
-            alert('注册失败')
+            login()
         }
-     })
+    }
 }
 </script>
 </html>

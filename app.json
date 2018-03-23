@@ -1,0 +1,11 @@
+{
+    "apps":[
+        {
+            "name": "server",
+            "script": "app.js",
+            "watch": true,
+            "min_uptime": "60s",
+            "max_restarts": 30
+        }
+    ]
+}

@@ -21,8 +21,8 @@
     </div>
 </div>
 
-<div class="news-wrap">
-    <div class="news-header">
+<div class="main-wrap">
+    <div class="main-header">
         <li>ID</li>
         <li>标题</li>
         <li>所属分类</li>
@@ -30,12 +30,10 @@
         <li>操作</li>
     </div>
 
-    <div class="news-cont">
-        
+    <div class="main-cont">
     </div>
 
-
-    <div class="news-pagation">
+    <div class="main-pagation">
         <a href="" class="bt-def prev"><</a>
         <a href="" class="bt-def active">1</a>
         <a href="" class="bt-def">2</a>
@@ -50,12 +48,13 @@
 function getEl(e,p){
     return (p || document).querySelector(e);
 }
-var cont = getEl('.news-cont')
+var cont = getEl('.main-cont')
 axios.post('../api/admin/newsAll').then(function(res){
     if(res.data){
         var str = '';
+        console.log(res)
         res.data.forEach(function(e,i){
-            str += '<div class="news-list"><li>'
+            str += '<div class="main-list"><li>'
                 +res.data[i].id+'</li><li>'
                 +res.data[i].title+'</li><li>'
                 +res.data[i].tab+'</li><li>'
@@ -104,8 +103,5 @@ function delAll(){
         }
     })
 }
-
-
-
 </script>
 </html>

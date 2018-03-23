@@ -31,7 +31,7 @@ if(!!un && !!ps){
         <li><a href="/">回到博客首页</a></li>
         <li><a href="javascrit:;">总督</a>
             <ul class="nav-class">
-                <li><a href="">帐号管理</a></li>
+                <li><a href="">用户名管理</a></li>
                 <li><a href="" class="exit">退出系统</a></li>
             </ul>
         </li>
@@ -43,25 +43,25 @@ if(!!un && !!ps){
         <li>
             <a href="">首页</a>
         </li>
-
         <li>
             <a href="javascript:;">文章管理<div class="down">></div></a>
 
             <ul class="tab-class">
-                <li><a href="">文章资讯</a></li>
+                <li><a href="./admin-new" target="userShow">文章资讯</a></li>
                 <li><a href="">分类管理</a></li>
             </ul>
         </li>
 
-        <li><a href="javascript:;">帐号管理<div class="down">></div></a>
+        <li><a href="javascript:;">用户名管理<div class="down">></div></a>
             <ul class="tab-class">
-                <li><a href="">所有帐号</a></li>
+                <li><a href="./admin-userAll" target="userShow">所有用户名</a></li>
+                <li><a href="./admin-user" target="userShow">个人用户名</a></li>
             </ul>
         </li>
     </div>
 
     <div class="fRight">
-        <iframe src="./admin-new" frameborder="0"></iframe>
+        <iframe src="./admin-new" name="userShow" frameborder="0"></iframe>
     </div>
 </div>
 </body>

@@ -201,4 +201,39 @@ header {
     .cont .fRight .new-tab .active a, .cont .fRight .new-tab li:hover a {
       background: #63a4dc; }
 
+.newInfo {
+  background: #fff;
+  border: 1px solid #f6f6f7;
+  margin-top: 20px;
+  padding: 20px; }
+  .newInfo .new-head {
+    border-bottom: 1px solid #f3f3f4;
+    padding-bottom: 20px; }
+    .newInfo .new-head h1 {
+      color: #2d2d2d;
+      margin-bottom: 10px; }
+    .newInfo .new-head .small img {
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      max-width: 40px;
+      max-height: 40px;
+      vertical-align: middle;
+      max-width: 30px;
+      max-height: 30px; }
+    .newInfo .new-head .small * {
+      display: inline-block;
+      font-size: 15px;
+      margin-right: 18px;
+      color: #565353;
+      font-weight: 600; }
+    .newInfo .new-head .small span {
+      background: #2652cc;
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-weight: 100;
+      font-size: 13px; }
+  .newInfo .new-cont {
+    padding-top: 20px; }
+
 /*# sourceMappingURL=index.css.map */

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/public/web/css/index.css">
+</head>
+<body>
+<header>
+    <img src="/public/web/logo-bj.jpg" alt="" class="logo-bj">
+
+    <nav>
+        <li><a href="/">Home</a></li>
+        <li><a href="">Github</a></li>
+        <li><a href="">Juejin</a></li>
+        <li><a href="">About</a></li>
+        <li><a href="/admin">Admin</a></li>
+    </nav>
+
+    <img src="/public/web/logonameimg.png" alt="" class="logo">
+    <div class="tx">
+        <h1>总督sir</h1>
+        <p>梦想还是要有的，万一实现了呢</p>
+    </div>
+</header>
+
+<div class="container newInfo">
+    <div class="new-head">
+            <h1></h1>
+            <div class="small">
+            </div>
+    </div>
+
+    <div class="new-cont">
+    </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+var id = location.search.split('=')[1];
+var t=getEl('.new-head h1'),
+    sma=getEl('.small'),
+    c=getEl('.new-cont')
+if(id){
+    var str = '<img src="/public/web/logonameimg.png" alt="">';
+    axios.post('../api/admin/newsFind',{
+        id: id
+    }).then(function(res){
+        var data = res.data[0];
+        var span = '';
+        var s = data.tab.split(',')
+        for(var i=0;i<s.length;i++){
+            span += `<span>${s[i]}</span>`
+        }
+        str += `<div class="name">123</div>
+                <div class="time">${data.time}</div>
+                `+span;
+        t.innerHTML = data.title;
+        sma.innerHTML = str;
+        c.innerHTML=data.cont
+    }).catch(function(err){
+        if(err){
+            alert('文章已删除');
+            location.href = '/'
+        }
+    })
+}else{
+    location.href = '/'
+}
+function getEl(e,p){
+    return (p || document).querySelector(e)
+}
+</script>
+</body>
+</html>

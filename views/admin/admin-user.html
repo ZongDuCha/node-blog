@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账户信息</title>
+    <link rel="stylesheet" href="/public/admin/css/main.css">
+</head>
+<body>
+<div class="container-fluid panel-def">
+    <div class="crumbs fLeft">
+        <span>当前位置:</span>
+        <li><a href="/admin-index">首页</a></li>
+        <li><a href="">个人账户</a></li>
+    </div>
+</div>
+
+<div class="container-fluid user">
+    <h1 class="user-title">个人资料</h1>
+    <div class="user--list">
+        <span>头像</span>
+    </div>
+    <div class="user--list">
+        <span>用户名</span>
+        <div class="user-mod">
+            <input type="text" placeholder="你觉得什么用户名最合适你呢" id="name" onblur="comp(this.value)">
+        </div>
+    </div>
+
+    <div class="user--list">
+        <span>个人介绍</span>
+        <div class="user-mod">
+            <textarea name="" placeholder="让更多的人去了解一下你" cols="30" rows="10" id="intr" onblur="comp(this.value)"></textarea>
+        </div>
+    </div>
+
+    <div class="user--list">
+        <span>个人网站</span>
+        <div class="user-mod">
+                <input type="text" placeholder="有没有属于你个人的网站呢" id="web" onblur="comp(this.value)">
+        </div>
+    </div>
+
+    <div class="user--list">
+        <span>公司</span>
+        <div class="user-mod">
+                <input type="text" placeholder="公司或许虽小，有你却更好" id="comp" onblur="comp(this.value)">
+        </div>
+    </div>
+
+    <div class="ps">自动保存*</div>
+</div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+axios.post('../api/admin/keep-user',{
+    name: name
+}).then(function(res){
+    if(res.data){
+        console.log(res.data)
+    }else{
+        console.log('获取失败')
+    }
+})
+function getEl(e,p){
+    return (p||document).querySelector(e)
+}
+
+var name = getEl('#name');
+function comp(q){
+    var _id = this.event.path[0].id
+    switch(_id){
+        case 'name':
+        break;
+    }
+}
+
+function sendData(){
+    axios.post()
+}
+</script>
+</html>

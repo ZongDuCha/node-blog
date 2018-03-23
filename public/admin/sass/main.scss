@@ -4,7 +4,20 @@
     color: #423f3f;
 
 }
+::selection {
+    background:rgb(29, 29, 29); 
+    color:#fff;
+}
 
+::-moz-selection {
+    background:rgb(29, 29, 29);  
+    color:#fff;
+}
+
+::-webkit-selection {
+    background:rgb(29, 29, 29);  
+    color:#fff;
+}
 .panel-def{
     line-height: 60px;
     padding: 0 20px;
@@ -42,10 +55,10 @@
         box-shadow: 0 0 6px rgb(165, 199, 235);
     }
 }
-.news-wrap{
+.main-wrap{
     display:block;
     margin-top: 20px;
-    .news-header{
+    .main-header{
         display: flex;
         background: #e5e7e8;
         border: 1px solid #ccc;
@@ -64,7 +77,7 @@
         }
     }
     
-    .news-list{
+    .main-list{
         display: flex;height:45px;line-height:45px;padding-left:10px;
         border-bottom: 1px solid #ddd;
         &:hover{
@@ -99,9 +112,60 @@
         }
     }
 
-    .news-pagation{
+    .main-pagation{
         margin-top:20px;
         text-align:center;
     }
 }
 
+.user{
+    width: 550px;
+    margin: 30px auto;
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-radius: 5px;
+    background: #fafafd;
+    box-shadow: -1px 2px 15px #eaebec;
+    h1.user-title{
+        font-size: 34px;
+        color: #2b2b2b;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 30px;
+    }
+    .ps{
+        color: #736363;
+        font-weight: 600;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .user--list{
+        *{
+            color:rgb(99, 99, 99);
+        }
+
+        display:flex;    line-height: 34px;
+        padding:30px 0;
+        border-bottom: 1px solid #ddd;
+
+        span{
+            margin-right: 15px;
+            width:70px;
+        }
+
+        .user-mod{
+            flex:1;
+            input,textarea{
+                width:100%;
+                padding:8px;
+                border-radius: 5px;
+                border:1px solid transparent;
+                transition:.3s;
+                background:rgba(0,0,0,0);
+                &:focus{
+                    border:1px solid #0b8ad8;
+                    background:#fff;
+                }
+            }
+        }
+    }
+}

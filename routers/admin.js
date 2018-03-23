@@ -20,5 +20,9 @@ router.get('/mod-news',function(req,res,next){
     res.render('admin/mod-news')
 })
 
+router.get('/admin-user',function(req,res,next){
+    res.render('admin/admin-user')
+})
+
 
 module.exports = router;

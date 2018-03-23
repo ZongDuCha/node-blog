@@ -9,7 +9,7 @@ router.post('/user/find',function(q,s,n){
     console.log(password)
     // 判断是否为空
     if(name == '' | password == ''){
-        s.json('帐号密码不能为空')
+        s.json('用户名密码不能为空')
         return false;
     }
 
@@ -33,7 +33,7 @@ router.post('/user/add',function(q,s,n){
 router.post('/user/update',function(q,s,n){
     var name = q.body.name,
         password = q.body.password;
-    // updata 表明 set 修改的字段  where  条件  , { 原数据 }(可忽略)
+    // updata 表名 set 修改的字段  where  条件  , { 原数据 }(可忽略)
     update('UPDATE blog SET username="123" where password="qwe"',function(e,r,n){
         console.log(r)
     })
@@ -53,7 +53,13 @@ router.post('/user/del',function(q,s,n){
 
 // 获取首页文章
 router.post('/user/index',function(q,s,n){
-        var sql = 'select * from `news`';
+        var list = q.body.list;
+        var times = 6;
+        var ls=''
+        if(!!list){
+            ls = 'limit 0,'+times*list
+        }
+        var sql = 'select * from `news` '+ ls;
         sel(sql,function(e,r,n){
             s.json(r)
         })
@@ -85,7 +91,7 @@ router.post('/admin/login',function(q,s,n){
 
     var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
-        r ? s.send(true) :  s.send(false)
+        r ? s.send(r) :  s.send(false)
     })
 })
 
@@ -93,13 +99,16 @@ router.post('/admin/login',function(q,s,n){
 router.post('/admin/logout',function(q,s,n){
     var name = q.body.name;
     var password = q.body.password
-    var sql = 'INSERT INTO blog SET  ?';
-    var obj = {username:name,password:password}
-    add(sql,obj,function(e,r,n){
-        if(!!e){
-            s.send(true)
+    var us = 'select * from blog where username="'+name+'"';
+    sel(us,function(e,r,n){
+        if(r.length > 0){
+            s.send('false')
         }else{
-            s.send(false)
+            var sql = 'INSERT INTO blog SET  ?';
+            var obj = {username:name,password:password}
+            add(sql,obj,function(ee,rr,nn){
+                s.send(!!rr)
+            })
         }
     })
 })
@@ -132,8 +141,8 @@ router.post('/admin/delNews',function(q,s,n){
     })
 })
 
-// 后台--添加和修改文章
-router.post('/admin/modNews',function(q,s,n){
+// 后台--添加文章
+router.post('/admin/addNews',function(q,s,n){
     var t = q.body.title,
         c = q.body.cont,
         b = q.body.tab,
@@ -145,12 +154,36 @@ router.post('/admin/modNews',function(q,s,n){
     })
 })
 
+// 后台--修改文章
+router.post('/admin/modNews',function(q,s,n){
+    var t = q.body.title,
+        id = q.body.id,
+        c = q.body.cont,
+        b = q.body.tab,
+        m = q.body.time,
+        add = "title='"+t+"',cont='"+c+"',tab='"+b+"',time='"+m+"'";
+        sql = 'UPDATE news SET '+add+' where id="'+id+'"';
+    update(sql,function(e,r,n){
+        s.send(!!r)
+    })
+})
+
 
 // 后台--删除全部文章
 router.post('/admin/delAll',function(q,s,n){
     var sql = 'delete from news';
     del(sql,function(e,r,n){
         r ? s.send(true) :  s.send(false)
+    })
+})
+
+
+// 后台--保存个人资料
+router.post('/admin/keep-user',function(q,s,n){
+    var username = q.body.name
+    var sql = 'select * from blog where id="'+username+'"';
+    sel(sql,function(e,r,n){
+        s.send(r)
     })
 })
 

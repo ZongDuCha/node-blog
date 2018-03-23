@@ -23,6 +23,10 @@ app.get('/',function(req,res,next){
     // 指定模版文件，相对于views
     res.render('web/index')
 })
+app.get('/newInfo',function(req,res,next){
+    // 指定模版文件，相对于views
+    res.render('web/newInfo')
+})
 // 创建后台管理页面
 app.get('/admin',function(req,res,next){
     res.render('admin/admin')

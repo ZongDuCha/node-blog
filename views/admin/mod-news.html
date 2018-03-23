@@ -15,7 +15,7 @@
     <div class="crumbs fLeft">
         <span>当前位置:</span>
         <li><a href="/admin-index">首页</a></li>
-        <li><a href="">文章资讯</a></li>
+        <li><a href="/admin/admin-new">文章资讯</a></li>
         <li><a href="">添加文章</a></li>
     </div>
 
@@ -31,16 +31,14 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 var id = location.search.slice(1,-1).split('=')[1];
+console.log(location.search.slice(1,-1))
 var ue = UE.getEditor('editor');
-
 // 判断是否有传id
 if(id){
-
     axios.post('../api/admin/newsFind',{
         id: id
     }).then(function(res){
         if(res.data){
-            console.log(res.data[0].title,res.data[0].tab)
             getEl('.title').value = res.data[0].title;
             getEl('.tab').value = res.data[0].tab;
             ue.addListener('ready',function(){
@@ -68,21 +66,35 @@ function getContent(ue) {
     var mon = new Date().getMonth()+1;
     var day = new Date().getDate();
     var s = yuer+'-'+mon+'-'+day;
-    
-    axios.post('../api/admin/modNews',{
-        title: title,
-        cont: arr.join('\n'),
-        tab: tab,
-        time: s
-    }).then(function(res){
-        if(res.data){
-            window.location.href = window.location.origin+'/admin/admin-new'
-        }else{
-            alert('请重试')
-        }
-    })
+    if(id){
+        axios.post('../api/admin/modNews',{
+            id: id,
+            title: title,
+            cont: arr.join('\n'),
+            tab: tab,
+            time: s
+        }).then(function(res){
+            if(res.data){
+                window.location.href = window.location.origin+'/admin/admin-new'
+            }else{
+                alert('请重试')
+            }
+        })
+    }else{
+        axios.post('../api/admin/addNews',{
+            title: title,
+            cont: arr.join('\n'),
+            tab: tab,
+            time: s
+        }).then(function(res){
+            if(res.data){
+                window.location.href = window.location.origin+'/admin/admin-new'
+            }else{
+                alert('请重试')
+            }
+        })
+    }
 }
-
 function getEl(e,q){
     return (q||document).querySelector(e)
 }

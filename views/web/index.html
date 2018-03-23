@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta rel='prefetch' href="/public/web/logo-bj.jpg">
+    <title>青春无悔</title>
     <link rel="stylesheet" type="text/css" href="/public/web/css/index.css">
 </head>
 <body>
@@ -30,7 +31,7 @@
     <div class="fLeft">
         <div class="news-list"></div>
         <div class="pagation">
-              <a href="">加载更多...</a>
+              <a href="javascrip:;" onclick="newAll()">加载更多...</a>
         </div>
     </div>
 
@@ -45,7 +46,6 @@
 
         <!-- new-tab -->
         <div class="new-tab">
-            
         </div>
     </div>
 </div>
@@ -62,15 +62,17 @@ function run(i,res){
     }
     return str;
 }
-
-var cont = getEl('.news-list');
-
+var cont = getEl('.news-list'),
+    list = 0;
 function newAll(q,_this){
+        // 切换tab
         if(_this != null){
             var par = _this.parentNode;
             par.className = 'active';
             var p= par.previousSibling;
             var n= par.nextSibling;
+            // 每次点击分类重置 文章的显示个数
+            list = 0;
             while (p) {
                 if( p.nodeType === 1){
                     p.className = '';
@@ -85,17 +87,22 @@ function newAll(q,_this){
             }
         }
 
+        // html拼接
         var b = '';
+        list++;
+        // 第一次访问或点击全部按钮
         if(q == null || q==='max'){
-            axios.post('../api/user/index').then(function(res){
+            axios.post('../api/user/index',{
+                list: list 
+            }).then(function(res){
                 for(var i=0;i<res.data.length;i++){
-                    b += `<li><a href="">
+                    b += `<li><a href="./newInfo?id=${res.data[i].id}">
                                 <div class="time">
                                 <h1>${res.data[i].time.split('-')[2].split('T')[0]}</h1>
                                 <span>${res.data[i].time.split('-')[1]}</span>
                                 </div>
                                 <h1>${res.data[i].title}</h1>
-                                <p>${res.data[i].cont}</p>
+                                <p>${res.data[i].cont.replace(/<\/?[^>]*>/g, '')}</p>
                                 <div class="tab">`+
                                 run(i,res.data)+
                                 `</div>
@@ -103,20 +110,20 @@ function newAll(q,_this){
                 }
                 cont.innerHTML = b
             })
-            
         // 指定分类
         }else{
             axios.post('../api/user/tabNews',{
-                tab: q
+                tab: q,
+                list: list
             }).then(function(res){
                 for(var i=0;i<res.data.length;i++){
-                    b += `<li><a href="">
+                    b += `<li><a href="./newInfo?id=${res.data[i].id}">
                                 <div class="time">
                                 <h1>${res.data[i].time.split('-')[2].split('T')[0]}</h1>
                                 <span>${res.data[i].time.split('-')[1]}</span>
                                 </div>
                                 <h1>${res.data[i].title}</h1>
-                                <p>${res.data[i].cont}</p>
+                                <p>${res.data[i].cont.replace(/<\/?[^>]*>/g, '')}</p>
                                 <div class="tab">`+
                                 run(i,res.data)+
                                 `</div>
@@ -129,11 +136,9 @@ function newAll(q,_this){
         }
 }
 
+
 // 获取文章
 newAll()
-
-
-
 // 文章唯一分类
 var newTab = getEl('.new-tab')
 axios.post('../api/admin/newsAll').then(function(res){

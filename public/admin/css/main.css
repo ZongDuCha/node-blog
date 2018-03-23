@@ -1078,6 +1078,18 @@ blockquote, .blockquote {
 [class*=crumbs] li, [class*=crumbs] a, [class*=crumbs] span {
   color: #423f3f; }
 
+::selection {
+  background: #1d1d1d;
+  color: #fff; }
+
+::-moz-selection {
+  background: #1d1d1d;
+  color: #fff; }
+
+::-webkit-selection {
+  background: #1d1d1d;
+  color: #fff; }
+
 .panel-def {
   line-height: 60px;
   padding: 0 20px; }
@@ -1108,35 +1120,35 @@ blockquote, .blockquote {
   .tab:focus, .title:focus {
     box-shadow: 0 0 6px #a5c7eb; }
 
-.news-wrap {
+.main-wrap {
   display: block;
   margin-top: 20px; }
-  .news-wrap .news-header {
+  .main-wrap .main-header {
     display: flex;
     background: #e5e7e8;
     border: 1px solid #ccc;
     border-radius: 3px; }
-    .news-wrap .news-header li {
+    .main-wrap .main-header li {
       padding: 8px 0;
       flex: 1;
       color: #4e4d4d;
       text-align: center;
       font-size: 15px;
       font-weight: 600; }
-      .news-wrap .news-header li + li {
+      .main-wrap .main-header li + li {
         border-left: 1px solid #c5b8b8; }
-  .news-wrap .news-list {
+  .main-wrap .main-list {
     display: flex;
     height: 45px;
     line-height: 45px;
     padding-left: 10px;
     border-bottom: 1px solid #ddd; }
-    .news-wrap .news-list:hover {
+    .main-wrap .main-list:hover {
       background: #ddd !important; }
-    .news-wrap .news-list li {
+    .main-wrap .main-list li {
       flex: 1;
       color: #3e3a3a; }
-      .news-wrap .news-list li a {
+      .main-wrap .main-list li a {
         display: inline-block;
         margin: 0 5px;
         padding: 5px 15px;
@@ -1146,14 +1158,55 @@ blockquote, .blockquote {
         line-height: 30px;
         padding: 0px 15px;
         transition: .4s; }
-        .news-wrap .news-list li a:hover {
+        .main-wrap .main-list li a:hover {
           background: #0b8ad8; }
-      .news-wrap .news-list li:nth-last-child(1) {
+      .main-wrap .main-list li:nth-last-child(1) {
         text-align: center; }
-    .news-wrap .news-list:nth-child(odd) {
+    .main-wrap .main-list:nth-child(odd) {
       background: #f3f3f4; }
-  .news-wrap .news-pagation {
+  .main-wrap .main-pagation {
     margin-top: 20px;
     text-align: center; }
+
+.user {
+  width: 550px;
+  margin: 30px auto;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 5px;
+  background: #fafafd;
+  box-shadow: -1px 2px 15px #eaebec; }
+  .user h1.user-title {
+    font-size: 34px;
+    color: #2b2b2b;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 30px; }
+  .user .ps {
+    color: #736363;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 20px; }
+  .user .user--list {
+    display: flex;
+    line-height: 34px;
+    padding: 30px 0;
+    border-bottom: 1px solid #ddd; }
+    .user .user--list * {
+      color: #636363; }
+    .user .user--list span {
+      margin-right: 15px;
+      width: 70px; }
+    .user .user--list .user-mod {
+      flex: 1; }
+      .user .user--list .user-mod input, .user .user--list .user-mod textarea {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        transition: .3s;
+        background: rgba(0, 0, 0, 0); }
+        .user .user--list .user-mod input:focus, .user .user--list .user-mod textarea:focus {
+          border: 1px solid #0b8ad8;
+          background: #fff; }
 
 /*# sourceMappingURL=main.css.map */
