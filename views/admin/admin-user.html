@@ -21,7 +21,7 @@
     <div class="user--list">
         <span>头像</span>
         <div class="user-mod">
-            <img src="/public/web/logonameimg.png" alt="">
+            <img src="" alt="" class="logo">
             <input type="file" name="" value="123" id="" class="file">
             <span>请上传 jpg | png</span>
         </div>
@@ -63,12 +63,14 @@
 var Name = getEl('#name'),
     Intr = getEl('#intr'),
     Web = getEl('#web'),
-    Comp = getEl('#comp');
+    Comp = getEl('#comp'),
+    logo = getEl('.logo');
 axios.post('../api/admin/keep-user',{
     name: un
 }).then(function(res){
     if(res.data.length){
         var r = res.data[0];
+        logo.src = r.logoURL || '/temp/moren.png';
         Name.value = r.username || '';
         Intr.value = r.intr || '';
         Web.value = r.web || '';
@@ -131,19 +133,22 @@ fl.onchange = function(){
         return;
     }
 
+    // 使用formdata 上传图片
     let param = new FormData()
     param.append('file', data, name)
-    param.append('chunk', '0')
+    param.append('id', 'zongdu')
     let config = {
         headers: {'Content-Type': 'multipart/form-data'}
     }
     // 添加请求头
     axios.post('../api/admin/img', param, config)
-        .then(response => {
-        if (response.data.code === 0) {
-        self.ImgUrl = response.data.data
+        .then(res => {
+        if(!!res.data.path){
+            var s = '/'+res.data.path;
+            logo.src = s;
+            fl.value = null;
+            return;
         }
-        console.log(response.data)
     })
 }
 </script>
