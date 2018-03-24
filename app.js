@@ -3,6 +3,11 @@ var express = require('express');
 var swig = require('swig');
 var app = express();
 var bp = require('body-parser');
+// 后台上传的模块
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+// 文件的存放地址
+app.use(multipart({uploadDir:'./temp' }));
 // 取消缓存
 swig.setDefaults({cache:false})
 // 配置当前使用的模版引擎
@@ -33,6 +38,7 @@ app.get('/admin',function(req,res,next){
 })
 // 定义静态文件访问的路径
 app.use('/public',express.static(__dirname+'/public'));
+app.use('/temp',express.static(__dirname+'/temp'));
 //百度富文本
 app.use('./ueditor/ue',require('./ue'))
 // 开启端口

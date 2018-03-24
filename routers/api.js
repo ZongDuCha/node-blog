@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router()
 var { sel,add,update,del} = require('./mysql')
-
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 router.post('/user/find',function(q,s,n){
     var name = q.body.name;
@@ -182,7 +183,6 @@ router.post('/admin/delAll',function(q,s,n){
 router.post('/admin/keep-user',function(q,s,n){
     var username = q.body.name;
     var sql = 'select * from blog where username="'+username+'"';
-    console.log(username)
     sel(sql,function(e,r,n){
         console.log(e,r)
         s.send(r)
@@ -195,14 +195,27 @@ router.post('/admin/heat-user',function(q,s,n){
     var l = q.body.l,
         d = q.body.d,
         c = q.body.c;
-        sql = 'update blog set '+l+'="'+d+'" where username="'+c+'"'
+        sql = 'update blog set '+l+'="'+d+'" where username="'+c+'"';
     update(sql,function(e,r,n){
-        console.log(e,r)
+        
     })
 })
 
-router.post('/admin/img',function(q,s,n){
-    console.log(q.body)
-})
+router.post('/admin/img',multipartMiddleware, function (req,res) {
+    var id = req.body.id;
+    // 返回保存图片的地址
+    res.send(req.files.file)
+    //分别返回body，文件属性，以及文件存放地址
+    //res.send(req.body,req.files,req.files.file.path);
+    if(req){
+        // 在mysql里路径会有问题，大概是已经字符串对单个\转译了，，所以提前重新定义下路径
+        var url = '/temp/' + req.files.file.path.split('\\')[1]
+        var sql = 'update blog set logoURL="'+url+'" where username="'+id+'"';
+        console.log(sql)
+        update(sql,function(e,r,n){
+           // console.log(e,r)
+        })
+    }
+});
 
 module.exports = router;

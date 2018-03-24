@@ -52,7 +52,6 @@ var cont = getEl('.main-cont')
 axios.post('../api/admin/newsAll').then(function(res){
     if(res.data){
         var str = '';
-        console.log(res)
         res.data.forEach(function(e,i){
             str += '<div class="main-list"><li>'
                 +res.data[i].id+'</li><li>'
