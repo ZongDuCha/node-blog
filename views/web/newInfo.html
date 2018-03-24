@@ -27,13 +27,31 @@
 </header>
 
 <div class="container newInfo">
-    <div class="new-head">
+    <div class="fLeft">
+        <div class="new-head">
             <h1></h1>
-            <div class="small">
+        </div>
+    
+        <div class="new-cont">
+        </div>
+
+
+        <!-- 文章评论 -->
+        <div class="new-comment">
+            <div class="comm-top">
+                全部评论(0)
             </div>
+
+            <div class="comm-list">
+                123
+            </div>
+        </div>
     </div>
 
-    <div class="new-cont">
+    <!-- fRight -->
+    <div class="fRight">
+        <div class="small">
+        </div>
     </div>
 </div>
 
@@ -55,7 +73,7 @@ if(id){
             span += `<span>${s[i]}</span>`
         }
         str += `<div class="name">123</div>
-                <div class="time">${data.time}</div>
+                <div class="time">发布时间:${data.time}</div>
                 `+span;
         t.innerHTML = data.title;
         sma.innerHTML = str;

@@ -13,6 +13,7 @@ body {
 
 .container {
   width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
   position: relative;
   display: block; }
@@ -47,8 +48,8 @@ header {
     top: 0;
     background: rgba(255, 255, 255, 0.94);
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 20vh;
+    height: 20vh;
     left: 0;
     right: 0;
     bottom: 0;
@@ -202,31 +203,68 @@ header {
       background: #63a4dc; }
 
 .newInfo {
-  background: #fff;
   border: 1px solid #f6f6f7;
-  margin-top: 20px;
-  padding: 20px; }
-  .newInfo .new-head {
-    border-bottom: 1px solid #f3f3f4;
-    padding-bottom: 20px; }
-    .newInfo .new-head h1 {
-      color: #2d2d2d;
-      margin-bottom: 10px; }
-    .newInfo .new-head .small img {
+  margin-top: 20px; }
+  .newInfo .fLeft {
+    float: left;
+    width: 74%; }
+    .newInfo .fLeft .new-head {
+      border-bottom: 1px solid #f3f3f4;
+      padding-bottom: 20px;
+      background: #fff;
+      padding: 15px; }
+      .newInfo .fLeft .new-head h1 {
+        color: #2d2d2d; }
+    .newInfo .fLeft .new-cont {
+      background: #fff;
+      padding: 15px; }
+    .newInfo .fLeft .new-comment .comm-top {
+      margin-top: 20px;
+      background: #fff;
+      border-bottom: 1px solid #e0dcdc;
+      padding-bottom: 10px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #232323;
+      letter-spacing: 1px; }
+    .newInfo .fLeft .new-comment .comm-list {
+      background: #fff;
+      padding: 15px; }
+  .newInfo .fRight {
+    float: right;
+    padding: 20px;
+    width: 24%;
+    background: #fff; }
+    .newInfo .fRight .small img {
       border: 1px solid #ddd;
       border-radius: 50%;
-      max-width: 40px;
-      max-height: 40px;
       vertical-align: middle;
-      max-width: 30px;
-      max-height: 30px; }
-    .newInfo .new-head .small * {
+      max-width: 90px;
+      max-height: 90px;
+      margin-top: -5px;
+      display: block;
+      margin: 0 auto; }
+    .newInfo .fRight .small * {
       display: inline-block;
       font-size: 15px;
       margin-right: 18px;
       color: #565353;
       font-weight: 600; }
-    .newInfo .new-head .small span {
+    .newInfo .fRight .small .name {
+      font-size: 24px;
+      color: #3c3a3a;
+      margin: 5px 0;
+      display: block;
+      text-align: center; }
+    .newInfo .fRight .small .time {
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+      letter-spacing: 1px;
+      font-size: 14px;
+      font-weight: 500; }
+    .newInfo .fRight .small span {
       background: #2652cc;
       color: #fff;
       padding: 2px 10px;
