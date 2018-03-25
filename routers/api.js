@@ -50,7 +50,7 @@ router.post('/user/del',function(q,s,n){
 })
 
 
-// 以上为入门实例
+// 以上为入门实例 ******************************************************
 
 // 获取首页文章
 router.post('/user/index',function(q,s,n){
@@ -60,12 +60,15 @@ router.post('/user/index',function(q,s,n){
         if(!!list){
             ls = 'limit 0,'+times*list
         }
-        var sql = 'select * from `news` '+ ls;
+        var sql = 'select * from `news` ORDER BY `time` DESC '+ ls;
         sel(sql,function(e,r,n){
+            console.log(e,r)
             s.json(r)
         })
 })
 
+
+// 获取首页文章全部分类
 router.post('/user/tabNews',function(q,s,n){
     var tab = q.body.tab
     var sql = "select * from `news`";
@@ -82,6 +85,56 @@ router.post('/user/tabNews',function(q,s,n){
 })
 
 
+// 文章评论
+router.post('/news/comm',function(q,s){
+    if(JSON.stringify(q.userInfo) == '{}'){
+        s.send(false)
+        return;
+    }
+
+    var nameId = q.userInfo.id;
+    var sql = 'select * from blog where username="'+nameId+'"';
+    // 获取logo图片
+    sel(sql,function(e,r){
+        var addSql = "INSERT INTO comment SET ?";
+        var newsId = q.body.newsId
+        var cont = q.body.cont;
+        var date = new Date();
+        var time = date.getFullYear() + '-' + (date.getMonth()+1)+ '-'+ date.getDate() + '  '+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+        var addObj = {nameId:nameId,comCont:cont,contTime:time,newsId:newsId};
+        add(addSql,addObj,function(ee,rr){
+            s.send(!!rr)
+        })
+    })
+    
+})
+
+
+// 获取文章评论
+router.post('/news/getComm',function(q,s){
+    var id = q.body.id;
+    // 获取用户现在的真实数据，防止评论后修改了资料
+
+    var sql = 'select * from comment where newsId="'+id+'" ORDER BY `contTime` DESC';
+    sel('select * from blog',function(ee,rr){
+        sel(sql,function(e,r){
+            // 循环用户表信息
+            for(var i=0;i<rr.length;i++){
+                // 循环评论表信息
+                for(var j=0;j<r.length;j++){
+                    if(r[j].nameId == rr[i].id){
+                        r[j].logoURL = rr[i].logoURL;
+                        r[j].comName = rr[i].username;
+                    }
+                }
+            }
+            s.send(r)
+        })
+    })
+    
+})
+
+
 /****************************************************************************** */
 
 
@@ -92,12 +145,17 @@ router.post('/admin/login',function(q,s,n){
 
     var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
-        r ? s.send(r) :  s.send(false)
+        q.cookies.set('userInfo',JSON.stringify({
+            'id': r[0].id,
+            'username': r[0].username,
+        }));
+        r ? s.send(r) :  s.send(false);
+        return;
     })
 })
 
 // 后台注册
-router.post('/admin/logout',function(q,s,n){
+router.post('/admin/logon',function(q,s,n){
     var name = q.body.name;
     var password = q.body.password
     var us = 'select * from blog where username="'+name+'"';
@@ -112,6 +170,12 @@ router.post('/admin/logout',function(q,s,n){
             })
         }
     })
+})
+
+
+router.post('/admin/logout',function(q,s,n){
+    q.cookies.set('userInfo',null);
+    s.send(true)
 })
 
 
@@ -149,7 +213,7 @@ router.post('/admin/addNews',function(q,s,n){
         b = q.body.tab,
         m = q.body.time
         sql = 'INSERT INTO news SET  ?',
-        obj = {title:t,cont:c,time:m,tab:b};
+        obj = {title:t,cont:c,time:m,tab:b,newsName:q.userInfo.username};
     add(sql,obj,function(e,r,n){
         r ? s.send(true) :  s.send(false)
     })
@@ -165,6 +229,7 @@ router.post('/admin/modNews',function(q,s,n){
         add = "title='"+t+"',cont='"+c+"',tab='"+b+"',time='"+m+"'";
         sql = 'UPDATE news SET '+add+' where id="'+id+'"';
     update(sql,function(e,r,n){
+        console.log(e,r)
         s.send(!!r)
     })
 })
@@ -184,7 +249,6 @@ router.post('/admin/keep-user',function(q,s,n){
     var username = q.body.name;
     var sql = 'select * from blog where username="'+username+'"';
     sel(sql,function(e,r,n){
-        console.log(e,r)
         s.send(r)
     })
 })
@@ -211,7 +275,6 @@ router.post('/admin/img',multipartMiddleware, function (req,res) {
         // 在mysql里路径会有问题，大概是已经字符串对单个\转译了，，所以提前重新定义下路径
         var url = '/temp/' + req.files.file.path.split('\\')[1]
         var sql = 'update blog set logoURL="'+url+'" where username="'+id+'"';
-        console.log(sql)
         update(sql,function(e,r,n){
            // console.log(e,r)
         })

@@ -48,8 +48,8 @@ header {
     top: 0;
     background: rgba(255, 255, 255, 0.94);
     border-radius: 50%;
-    width: 20vh;
-    height: 20vh;
+    width: 10vw;
+    height: 10vw;
     left: 0;
     right: 0;
     bottom: 0;
@@ -204,7 +204,7 @@ header {
 
 .newInfo {
   border: 1px solid #f6f6f7;
-  margin-top: 20px; }
+  margin: 20px auto; }
   .newInfo .fLeft {
     float: left;
     width: 74%; }
@@ -218,19 +218,70 @@ header {
     .newInfo .fLeft .new-cont {
       background: #fff;
       padding: 15px; }
-    .newInfo .fLeft .new-comment .comm-top {
+    .newInfo .fLeft .new-comment {
+      background: #fff;
       margin-top: 20px;
-      background: #fff;
-      border-bottom: 1px solid #e0dcdc;
-      padding-bottom: 10px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #232323;
-      letter-spacing: 1px; }
-    .newInfo .fLeft .new-comment .comm-list {
-      background: #fff;
-      padding: 15px; }
+      padding: 10px 0; }
+      .newInfo .fLeft .new-comment .comm {
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+        outline: none;
+        border-radius: 5px;
+        font-size: 18px;
+        max-height: 90px;
+        padding: 5px;
+        transition: .3s; }
+        .newInfo .fLeft .new-comment .comm:focus {
+          box-shadow: 0 0 15px #88a2de; }
+      .newInfo .fLeft .new-comment .sub {
+        display: block;
+        margin-top: 10px;
+        margin-left: 84%;
+        padding: 9px 20px;
+        box-sizing: border-box;
+        background: #1e45b1;
+        color: #fff;
+        border: 1px solid #214abd;
+        border-radius: 5px;
+        transition: .3s;
+        cursor: pointer;
+        outline: none; }
+        .newInfo .fLeft .new-comment .sub:hover {
+          background: #2652cc; }
+      .newInfo .fLeft .new-comment .comm-top {
+        border-bottom: 1px solid #e0dcdc;
+        padding-bottom: 10px;
+        padding: 15px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #232323;
+        letter-spacing: 1px; }
+      .newInfo .fLeft .new-comment .comm-list {
+        padding: 15px; }
+        .newInfo .fLeft .new-comment .comm-list .list {
+          margin-bottom: 20px;
+          border-bottom: 1px solid #eaeaec;
+          padding-bottom: 20px; }
+          .newInfo .fLeft .new-comment .comm-list .list img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            vertical-align: middle; }
+          .newInfo .fLeft .new-comment .comm-list .list .name-top {
+            display: inline-block; }
+            .newInfo .fLeft .new-comment .comm-list .list .name-top span {
+              margin: 0 6px;
+              font-size: 13px; }
+              .newInfo .fLeft .new-comment .comm-list .list .name-top span:nth-child(1) {
+                font-weight: 600;
+                font-size: 16px;
+                margin-left: 15px; }
+          .newInfo .fLeft .new-comment .comm-list .list .tx {
+            letter-spacing: 1px;
+            margin-top: 10px;
+            font-size: 13px; }
   .newInfo .fRight {
     float: right;
     padding: 20px;

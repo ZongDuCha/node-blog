@@ -21,7 +21,7 @@
 
     <img src="/public/web/logonameimg.png" alt="" class="logo">
     <div class="tx">
-        <h1>总督sir</h1>
+        <h1>{{username || '还没登录'}}</h1>
         <p>梦想还是要有的，万一实现了呢</p>
     </div>
 </header>
@@ -29,21 +29,21 @@
 <div class="container newInfo">
     <div class="fLeft">
         <div class="new-head">
-            <h1></h1>
+            <h1>{{title}}</h1>
         </div>
     
-        <div class="new-cont">
+        <!-- 用js对html标签转义一下 -->
+        <div class="new-cont" data-cont="{{cont}}">
         </div>
-
 
         <!-- 文章评论 -->
         <div class="new-comment">
+            <textarea name="" class="comm" placeholder="填写评论内容" cols="30" rows="10"></textarea>
+            <button class='sub'>确认回答</button>
             <div class="comm-top">
-                全部评论(0)
             </div>
 
             <div class="comm-list">
-                123
             </div>
         </div>
     </div>
@@ -51,42 +51,67 @@
     <!-- fRight -->
     <div class="fRight">
         <div class="small">
-        </div>
+            <img src="/public/web/logonameimg.png" alt="">
+            <div class="name">{{name || '没有名字'}}</div>
+            <div class="time">发布时间:{{time}}</div>
+            {% for tab in tab %}
+                <span>{{tab}}</span>
+            {% endfor %}
     </div>
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-var id = location.search.split('=')[1];
-var t=getEl('.new-head h1'),
-    sma=getEl('.small'),
-    c=getEl('.new-cont')
-if(id){
-    var str = '<img src="/public/web/logonameimg.png" alt="">';
-    axios.post('../api/admin/newsFind',{
-        id: id
+var cont = getEl('[data-cont]'),
+    sub = getEl('.sub'),
+    comm = getEl('.comm'),
+    commTop = getEl('.comm-top'),
+    id = location.search.split('id=')[1],
+    list = getEl('.comm-list');
+cont.innerHTML = cont.dataset.cont;
+
+sub.onclick = function(){
+    var value = comm.value;
+    if(value == '' || value == null || !value.trim()){
+        alert('不能为空');
+        return;
+    }
+    axios.post('../api/news/comm',{
+        cont: value,
+        newsId: id
     }).then(function(res){
-        var data = res.data[0];
-        var span = '';
-        var s = data.tab.split(',')
-        for(var i=0;i<s.length;i++){
-            span += `<span>${s[i]}</span>`
-        }
-        str += `<div class="name">123</div>
-                <div class="time">发布时间:${data.time}</div>
-                `+span;
-        t.innerHTML = data.title;
-        sma.innerHTML = str;
-        c.innerHTML=data.cont
-    }).catch(function(err){
-        if(err){
-            alert('文章已删除');
-            location.href = '/'
+        if(res.data){
+            comm.value = '';
+            getComm()
         }
     })
-}else{
-    location.href = '/'
 }
+
+function getComm(){
+    axios.post('../api/news/getComm',{
+    id: id
+    }).then(function(res){
+        if(res.data){
+            var str = '',data = res.data;
+            commTop.innerHTML = '全部评论('+data.length+')';
+            console.log(data)
+            for(var i=0;i<data.length;i++){
+                str += `<div class="list">
+                    <img src="${data[i].logoURL}" alt="">
+                    <div class="name-top">
+                        <span>${data[i].comName}</span>
+                        <span>${data[i].contTime}</span>
+                    </div>
+                    <div class="tx">
+                        ${data[i].comCont}
+                    </div>
+                </div>`
+            }
+            list.innerHTML = str;
+        }
+    })
+}
+getComm()
 function getEl(e,p){
     return (p || document).querySelector(e)
 }

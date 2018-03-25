@@ -11,7 +11,7 @@
 <body>
 <header>
     <img src="/public/web/logo-bj.jpg" alt="" class="logo-bj">
-
+    {{id}}
     <nav>
         <li><a href="/">Home</a></li>
         <li><a href="">Github</a></li>
@@ -22,7 +22,7 @@
 
     <img src="/public/web/logonameimg.png" alt="" class="logo">
     <div class="tx">
-        <h1>总督sir</h1>
+        <h1>{{username || '还没登录'}}</h1>
         <p>梦想还是要有的，万一实现了呢</p>
     </div>
 </header>
@@ -46,6 +46,15 @@
 
         <!-- new-tab -->
         <div class="new-tab">
+            <li class="active">
+                <a href="javascript:;" onclick="newAll(this)">全部</a>
+            </li>
+            
+            {% for tab in tab %}
+            <li>
+                <a href="javascript:;" onclick="newAll(this)">{{tab}}</a>
+            </li>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -64,7 +73,8 @@ function run(i,res){
 }
 var cont = getEl('.news-list'),
     list = 0;
-function newAll(q,_this){
+function newAll(_this){
+        var q = _this ? _this.innerHTML : '全部';
         // 切换tab
         if(_this != null){
             var par = _this.parentNode;
@@ -91,12 +101,12 @@ function newAll(q,_this){
         var b = '';
         list++;
         // 第一次访问或点击全部按钮
-        if(q == null || q==='max'){
+        if(q == '' ||  q == '全部'){
             axios.post('../api/user/index',{
                 list: list 
             }).then(function(res){
                 for(var i=0;i<res.data.length;i++){
-                    b += `<li><a href="./newInfo?id=${res.data[i].id}">
+                    b += `<li><a href="./newInfo?id=${res.data[i].id}" target="_black">
                                 <div class="time">
                                 <h1>${res.data[i].time.split('-')[2].split('T')[0]}</h1>
                                 <span>${res.data[i].time.split('-')[1]}</span>
@@ -140,25 +150,25 @@ function newAll(q,_this){
 // 获取文章
 newAll()
 // 文章唯一分类
-var newTab = getEl('.new-tab')
-axios.post('../api/admin/newsAll').then(function(res){
-    if(res.data){
-        var tabCl = [];
-        // 去重
-        for(var i=0;i<res.data.length;i++){
-            var ab = res.data[i].tab.split(',')
-            for(var j=0;j<ab.length;j++){
-                if(tabCl.indexOf(ab[j]) < 0){
-                    tabCl.push(ab[j])
-                }
-            }
-        }
-        var st = `<li class="active"><a href="javascript:;" onclick="newAll('max',this)">全部</a></li>`
-        for(var k = 0;k<tabCl.length;k++){
-            st += `<li><a href="javascript:;" onclick="newAll('${tabCl[k]}',this)">${tabCl[k]}</a></li>`
-        }
-        newTab.innerHTML = st
-    }
-})
+// var newTab = getEl('.new-tab')
+// axios.post('../api/admin/newsAll').then(function(res){
+//     if(res.data){
+//         var tabCl = [];
+//         // 去重
+//         for(var i=0;i<res.data.length;i++){
+//             var ab = res.data[i].tab.split(',')
+//             for(var j=0;j<ab.length;j++){
+//                 if(tabCl.indexOf(ab[j]) < 0){
+//                     tabCl.push(ab[j])
+//                 }
+//             }
+//         }
+//         var st = ``
+//         for(var k = 0;k<tabCl.length;k++){
+//             st += `<li><a href="javascript:;" onclick="newAll('${tabCl[k]}',this)">${tabCl[k]}</a></li>`
+//         }
+//         newTab.innerHTML = st
+//     }
+// })
 </script>
 </html>
