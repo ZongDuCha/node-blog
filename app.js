@@ -32,6 +32,7 @@ app.use(function(req,res,next){
             req.userInfo = JSON.parse(req.cookies.get('userInfo'))
         }catch(e){}
     }
+    // req.server_path = path.join(__dirname, 'public');
     next();
 })
 

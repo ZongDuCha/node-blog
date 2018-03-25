@@ -3,6 +3,7 @@ var router = express.Router()
 var { sel,add,update,del} = require('./mysql')
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
+var fs = require('fs')
 
 router.post('/user/find',function(q,s,n){
     var name = q.body.name;
@@ -266,19 +267,31 @@ router.post('/admin/heat-user',function(q,s,n){
 })
 
 router.post('/admin/img',multipartMiddleware, function (req,res) {
-    var id = req.body.id;
-    // 返回保存图片的地址
-    res.send(req.files.file)
-    //分别返回body，文件属性，以及文件存放地址
-    //res.send(req.body,req.files,req.files.file.path);
-    if(req){
-        // 在mysql里路径会有问题，大概是已经字符串对单个\转译了，，所以提前重新定义下路径
-        var url = '/temp/' + req.files.file.path.split('\\')[1]
-        var sql = 'update blog set logoURL="'+url+'" where username="'+id+'"';
-        update(sql,function(e,r,n){
-           // console.log(e,r)
-        })
-    }
+    var id = req.userInfo.id;
+
+    var sec = 'select * from blog where id="'+id+'"';
+    // sel(sec,function(e,r){
+        // var url = req.server_path + r[0].logoURL;
+        // console.log(url)
+        // // 删除原本存放在文件夹的文件
+        // fs.unlink(url,function(e,r){
+        //     console.log(e,r)
+        // })
+        // // 返回保存图片的地址
+        // res.send(req.files.file)
+        //分别返回body，文件属性，以及文件存放地址
+        //res.send(req.body,req.files,req.files.file.path);
+        if(req){
+            // 在mysql里路径会有问题，大概是已经字符串对单个\转译了，，所以提前重新定义下路径
+            var url = '/public/temp/' + req.files.file.path.split('\\')[1]
+            console.log(url)
+            var sql = 'update blog set logoURL="'+url+'" where username="'+id+'"';
+            update(sql,function(e,r,n){
+            // console.log(e,r)
+            })
+        }
+    // })
+    
 });
 
 module.exports = router;

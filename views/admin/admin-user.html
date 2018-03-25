@@ -70,7 +70,7 @@ axios.post('../api/admin/keep-user',{
 }).then(function(res){
     if(res.data.length){
         var r = res.data[0];
-        logo.src = r.logoURL || '/temp/moren.png';
+        logo.src = r.logoURL || '/public/temp/moren.png';
         Name.value = r.username || '';
         Intr.value = r.intr || '';
         Web.value = r.web || '';

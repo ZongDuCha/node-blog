@@ -1,3 +1,2 @@
-id	username	password	web	intr	comp	logoURL
-22	zongdu123	11				
-23	zongdu	123	www.zongducha.top	123123	123123123123	/temp/DJ_NDrjDg6XCsDpsQPQHEiFn.png
+23	zongdu	123	123123	www.zongducha.top	123123123123	
+24	zongdusir	123				
