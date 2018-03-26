@@ -28,9 +28,9 @@
 
 
 ```
-`npm install`
+npm install
 
-`node app.js`
+node app.js
 
 
 // 如果报错类似于： sqlMessage: 'Incorrect string value: \'\\xE6\\xB5\\x8B\\xE8\\xAF\\x95...\' for column \'comCont\' at row 1'
