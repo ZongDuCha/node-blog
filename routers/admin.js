@@ -24,9 +24,6 @@ router.get('/user',function(req,res,next){
             'userInfo': req.userInfo
         })
     }
-    
-    // 获取当前路由
-    //  console.log(req.route.path,1)
 })
 
 

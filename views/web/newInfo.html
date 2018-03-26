@@ -58,20 +58,17 @@
                 <i class="fa fa-clock-o"></i>
                 发布时间:{{time}}
             </div>
-            <div>
-                <i class="fa fa-eye"></i>
-                浏览量：23123
+            <div class="visit">
+                
             </div>
 
-            <div>
-                <i class="fa fa-heart"></i>
-                支持数：123
+            <div class="zan">
+                
             </div>
 
-            <div>
-                <i class="fa fa-comments-o"></i>
-                评论数：123
-            </div>
+            <a class="commLen">
+                
+            </a>
 
             {% for tab in tab %}
                 <span>{{tab}}</span>
@@ -89,7 +86,10 @@ var cont = getEl('[data-cont]'),
     comm = getEl('.comm'),
     commTop = getEl('.comm-top'),
     id = location.search.split('id=')[1],
-    list = getEl('.comm-list');
+    list = getEl('.comm-list'),
+    commLen = getEl('.commLen'),
+    visit = getEl('.visit'),
+    zan = getEl('.zan');
 cont.innerHTML = cont.dataset.cont;
 
 // 评论
@@ -117,6 +117,9 @@ function getComm(){
     id: id
     }).then(function(res){
         if(res.data){
+
+            // 评论数
+            commLen.innerHTML = `<i class="fa fa-comments-o"></i>评论数：${res.data.length}`;
             // html字符拼接，缓存res.data数据，判断拼接显示删除按钮
             var str = '',data = res.data,showSpan='';
             commTop.innerHTML = '全部评论('+data.length+')';
@@ -125,7 +128,7 @@ function getComm(){
                     showSpan = `<span onclick="delComm(${data[i].id})" title="删除评论"><i class="fa fa-trash-o"></i></span>`;
                 }
                 str += `<div class="list">
-                    <img src="${data[i].logoURL}" alt="">
+                    <img src="${data[i].logoURL || '/public/temp/moren.png'}" alt="">
                     <div class="name-top">
                         <span><i class="fa fa-user"></i> ${data[i].comName}</span>
                         <span><i class="fa fa-clock-o"></i> ${data[i].contTime}</span>`+
@@ -141,6 +144,33 @@ function getComm(){
         }
     })
 }
+
+// 延时操作
+setTimeout(function(){
+    // 浏览量
+    axios.post('../api/news/commLen',{
+        id: id
+    }).then(function(res){
+        if(res.data){
+            visit.innerHTML = `<i class="fa fa-eye"></i> 浏览量：${res.data || 0}`;
+        }
+    })
+},0)
+
+// 点击支持
+function newsZan(){
+    console.log(id)
+    axios.post('../api/news/zan',{
+        id:id
+    }).then(function(res){
+        if(res.data){
+            console.log(res.data.length)
+            zan.innerHTML = `<i class="fa fa-heart"></i> 支持数：${res.data.length || 0}`
+            console.log(res.data)
+        }
+    })
+}
+newsZan();
 // 首次获取全部评论
 getComm()
 // 删除评论

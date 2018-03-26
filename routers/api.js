@@ -142,6 +142,32 @@ router.post('/news/delComm',function(q,s){
 })
 
 
+router.post('/news/commLen',function(q,s){
+    var id = q.body.id;
+    var sql = 'select * from news where id="'+id+'"';
+    sel(sql,function(e,r){
+        var vis = r[0].visit == null ? 0 : r[0].visit;
+        vis++;
+        var upSql = 'update news SET visit="'+vis+'" where id="'+id+'"';
+        update(upSql,function(e,r){
+            // 转字符串 ，否则会报错
+            s.send(r.vis = vis.toString())
+        })
+    })
+})
+
+
+router.post('/news/zan',function(q,s){
+    var id = q.body.id;
+    console.log(id)
+    var sql = 'select * from news where id="'+id+'"'
+    sel(sql,function(e,r){
+        var len = r[0].zan.split(',');
+        s.send(len)
+    })
+})
+
+
 /****************************************************************************** */
 
 
@@ -151,13 +177,15 @@ router.post('/admin/login',function(q,s,n){
         password = q.body.password,
         sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
-        q.cookies.set('userInfo',JSON.stringify({
-            'id': r[0].id,
-            'username': r[0].username,
-            'logoURL': r[0].logoURL,
-            'isAdmin': r[0].isAdmin
-        }));
-        s.send(!!r)
+        if(!!r.length){
+            q.cookies.set('userInfo',JSON.stringify({
+                'id': r[0].id,
+                'username': r[0].username,
+                'logoURL': r[0].logoURL,
+                'isAdmin': r[0].isAdmin
+            }));
+        }
+        s.send(!!r.length)
     })
 })
 
