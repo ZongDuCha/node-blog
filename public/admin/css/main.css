@@ -699,7 +699,7 @@ blockquote, .blockquote {
   transition: .3s;
   text-align: center; }
   [class*=bt-].prev, [class*=bt-].next {
-    font-family: '榛戜綋';
+    font-family: '黑体';
     line-height: 21px; }
 
 .bt-def, .bt-line {
@@ -711,10 +711,12 @@ blockquote, .blockquote {
   background: #1d6de2;
   color: #fff;
   cursor: pointer; }
+  .bt-def + .bt-def {
+    margin-left: 15px; }
   .bt-def:hover {
     background: #094fb7;
     border-color: #094fb7; }
-  .bt-def + .active {
+  .bt-def.active {
     background: #094fb7;
     border-color: #094fb7; }
 

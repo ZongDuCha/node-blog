@@ -67,7 +67,7 @@ var login = In.onclick = function(){
             name: Name.value,
             password: Password.value
         }).then(function(res){
-            if(res.data.length > 0){
+            if(res.data){
                 sessionStorage.setItem('username',Name.value)
                 sessionStorage.setItem('password',Password.value)
                 alert('登陆成功')

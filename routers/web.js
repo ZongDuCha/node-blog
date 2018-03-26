@@ -22,7 +22,6 @@ router.get('/',function(req,res,next){
             'logoURL':req.userInfo.logoURL
         })
     })
-    
 })
 
 
@@ -46,8 +45,6 @@ router.get('/newInfo',function(req,res,next){
                 })
             }
         })
-        // 指定模版文件，相对于views
-        
     }
 })
 

@@ -301,13 +301,18 @@ header{
                 }
             }
             .sub{
+
+                i{
+                    color:#fff !important;
+                }
+
                 display: block;
                 margin-top: 10px;
                 margin-left: 84%;
                 padding: 9px 20px;
                 box-sizing: border-box;
                 background: #1e45b1;
-                color: #fff;
+                color: #fff !important;
                 border: 1px solid #214abd;
                 border-radius: 5px;
                 transition: .3s;
@@ -347,12 +352,16 @@ header{
                         display:inline-block;
                         
                         span{
-                            margin:0 6px;
+                            margin:0 13px;
                             font-size:13px;
                             &:nth-child(1){
                                 font-weight: 600;
                                 font-size: 16px;
                                 margin-left: 15px;
+                            }
+
+                            i{
+                                cursor: pointer;
                             }
                         }
                     }
@@ -374,7 +383,7 @@ header{
             img{
                 border: 1px solid #ddd;
                 border-radius: 50%;
-                vertical-align: middle;
+                vertical-align:middle;
                 max-width: 90px;
                 max-height: 90px;
                 margin-top: -5px;
@@ -384,11 +393,16 @@ header{
 
 
             *{
-                display: inline-block;
-                font-size: 15px;
-                margin-right: 18px;
+                font-size: 11px;
                 color: #565353;
-                font-weight: 600;
+                margin: 8px 0;
+                text-align: center;
+                
+            }
+
+            span{
+                
+                margin-right: 18px;display: inline-block;
             }
 
             .name{

@@ -16,6 +16,7 @@
     </div>
 
     <div class="fRight">
+        <a href="">刷新</a>
         <a href="./mod-news">添加文章</a>
         <a href="javascript:;" onclick="delAll()">删除全部</a>
     </div>
@@ -27,6 +28,7 @@
         <li>标题</li>
         <li>所属分类</li>
         <li>日期</li>
+        <li>用户</li>
         <li>操作</li>
     </div>
 
@@ -34,10 +36,7 @@
     </div>
 
     <div class="main-pagation">
-        <a href="" class="bt-def prev"><</a>
-        <a href="" class="bt-def active">1</a>
-        <a href="" class="bt-def">2</a>
-        <a href="" class="bt-def next">></a>
+        
     </div>
 </div>
 
@@ -48,24 +47,74 @@
 function getEl(e,p){
     return (p || document).querySelector(e);
 }
-var cont = getEl('.main-cont')
+var cont = getEl('.main-cont'),
+    pageEl = getEl('.main-pagation');
+
+// 文章分页
 axios.post('../api/admin/newsAll').then(function(res){
-    if(res.data){
-        var str = '';
-        res.data.forEach(function(e,i){
-            str += '<div class="main-list"><li>'
-                +res.data[i].id+'</li><li>'
-                +res.data[i].title+'</li><li>'
-                +res.data[i].tab+'</li><li>'
-                +res.data[i].time+'</li><li><a href="javascript:;" onclick="del('
-                +res.data[i].id+')">删除</a><a href="./mod-news?id='
-                +res.data[i].id+';">编辑</a></li> </div>'
-        });
-        cont.innerHTML = str
-    }
-}).catch(function(err){
-    console.log(err)
+        // 分页
+        var page = '';
+        var list = res.data.length/5;
+        for(var i=0;i<list;i++){
+            page += `<a href="javascript:;" class="bt-def" onclick="getLim(${i},this)">${i+1}</a>`;
+        }
+        pageEl.innerHTML = page;
 })
+
+// 点击分页
+function getLim(id,_this){
+    list = 5;id = id || 0;
+    // 所有文章
+    axios.post('../api/admin/newList',{
+        total: list=list*id
+    }).then(function(res){
+        
+        if(res.data){
+            var str = '';
+            res.data.forEach(function(e,i){
+                str += '<div class="main-list"><li>'
+                    +res.data[i].id+'</li><li>'
+                    +res.data[i].title+'</li><li>'
+                    +res.data[i].tab+'</li><li>'
+                    +res.data[i].time+'</li><li>'+
+                    res.data[i].name+'</li><li><a href="javascript:;" onclick="del('
+                    +res.data[i].id+')">删除</a><a href="./mod-news?id='
+                    +res.data[i].id+';">编辑</a></li> </div>'
+            });
+            cont.innerHTML = str;
+            
+            setTimeout(function(){
+                // 切换分页className
+                    if(_this != null){
+                        var par = _this;
+                        par.className = 'bt-def active';
+                        var p= par.previousSibling;
+                        var n= par.nextSibling;
+                        // 每次点击分类重置 文章的显示个数
+                        list = 0;
+                        while (p) {
+                            if( p.nodeType === 1){
+                                p.className = 'bt-def';
+                            }
+                            p= p.previousSibling;
+                        }
+                        while (n) {
+                            if( n.nodeType === 1){
+                                n.className = 'bt-def';
+                            }
+                            n= n.nextSibling;
+                        }
+                    }else{
+                        var par = document.querySelectorAll('.main-pagation a')[Math.ceil(list/5)].className = 'bt-def active';
+                    }
+            },0)
+        }
+    }).catch(function(err){
+        console.log(err)
+    })
+    
+}
+getLim()
 
 /*
     删除单条文章记录

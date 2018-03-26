@@ -711,10 +711,12 @@ blockquote, .blockquote {
   background: #1d6de2;
   color: #fff;
   cursor: pointer; }
+  .bt-def + .bt-def {
+    margin-left: 15px; }
   .bt-def:hover {
     background: #094fb7;
     border-color: #094fb7; }
-  .bt-def + .active {
+  .bt-def.active {
     background: #094fb7;
     border-color: #094fb7; }
 
@@ -1169,7 +1171,7 @@ body {
   .wrapper .fLeft {
     height: 100%;
     width: 250px;
-    background: #25618e; }
+    background: #1561bf; }
     .wrapper .fLeft * {
       color: #dad6d6; }
     .wrapper .fLeft li {

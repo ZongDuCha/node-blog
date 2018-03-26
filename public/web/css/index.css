@@ -241,12 +241,14 @@ header {
         padding: 9px 20px;
         box-sizing: border-box;
         background: #1e45b1;
-        color: #fff;
+        color: #fff !important;
         border: 1px solid #214abd;
         border-radius: 5px;
         transition: .3s;
         cursor: pointer;
         outline: none; }
+        .newInfo .fLeft .new-comment .sub i {
+          color: #fff !important; }
         .newInfo .fLeft .new-comment .sub:hover {
           background: #2652cc; }
       .newInfo .fLeft .new-comment .comm-top {
@@ -272,12 +274,14 @@ header {
           .newInfo .fLeft .new-comment .comm-list .list .name-top {
             display: inline-block; }
             .newInfo .fLeft .new-comment .comm-list .list .name-top span {
-              margin: 0 6px;
+              margin: 0 13px;
               font-size: 13px; }
               .newInfo .fLeft .new-comment .comm-list .list .name-top span:nth-child(1) {
                 font-weight: 600;
                 font-size: 16px;
                 margin-left: 15px; }
+              .newInfo .fLeft .new-comment .comm-list .list .name-top span i {
+                cursor: pointer; }
           .newInfo .fLeft .new-comment .comm-list .list .tx {
             letter-spacing: 1px;
             margin-top: 10px;
@@ -297,11 +301,13 @@ header {
       display: block;
       margin: 0 auto; }
     .newInfo .fRight .small * {
-      display: inline-block;
-      font-size: 15px;
-      margin-right: 18px;
+      font-size: 11px;
       color: #565353;
-      font-weight: 600; }
+      margin: 8px 0;
+      text-align: center; }
+    .newInfo .fRight .small span {
+      margin-right: 18px;
+      display: inline-block; }
     .newInfo .fRight .small .name {
       font-size: 24px;
       color: #3c3a3a;

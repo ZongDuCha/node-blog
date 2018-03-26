@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router()
-var { sel,add,update,del} = require('./mysql')
-var multipart = require('connect-multiparty');
-var multipartMiddleware = multipart();
-var fs = require('fs')
+var express = require('express'),
+    router = express.Router(),
+    { sel,add,update,del} = require('./mysql'),
+    multipart = require('connect-multiparty'),
+    multipartMiddleware = multipart(),
+    fs = require('fs')
 
 router.post('/user/find',function(q,s,n){
-    var name = q.body.name;
-    var password = q.body.password;
+    var name = q.body.name,
+        password = q.body.password;
     console.log(password)
     // 判断是否为空
     if(name == '' | password == ''){
@@ -43,8 +43,8 @@ router.post('/user/update',function(q,s,n){
 
 router.post('/user/del',function(q,s,n){
     // delete from 表明 where 条件(唯一并删除一行的记录)
-    var sql = 'delete from blog where username=1'
-    var obj = {password: '2'}
+    var sql = 'delete from blog where username=1',
+        obj = {password: '2'}
     del(sql,obj,function(e,r,n){
         console.log(r)
     })
@@ -55,9 +55,9 @@ router.post('/user/del',function(q,s,n){
 
 // 获取首页文章
 router.post('/user/index',function(q,s,n){
-        var list = q.body.list;
-        var times = 6;
-        var ls=''
+        var list = q.body.list,
+            times = 6,
+            ls='';
         if(!!list){
             ls = 'limit 0,'+times*list
         }
@@ -67,11 +67,10 @@ router.post('/user/index',function(q,s,n){
         })
 })
 
-
 // 获取首页文章全部分类
 router.post('/user/tabNews',function(q,s,n){
-    var tab = q.body.tab
-    var sql = "select * from `news`";
+    var tab = q.body.tab,
+        sql = "select * from `news`";
     sel(sql,function(e,r,n){
         var str = [];
         for(var i=0;i<r.length;i++){
@@ -87,7 +86,6 @@ router.post('/user/tabNews',function(q,s,n){
 
 // 文章评论
 router.post('/news/comm',function(q,s){
-    console.log(q.userInfo)
     if(JSON.stringify(q.userInfo) == '{}'){
         s.send(false)
         return;
@@ -110,7 +108,6 @@ router.post('/news/comm',function(q,s){
     
 })
 
-
 // 获取文章评论
 router.post('/news/getComm',function(q,s){
     var id = q.body.id;
@@ -123,6 +120,7 @@ router.post('/news/getComm',function(q,s){
             for(var i=0;i<rr.length;i++){
                 // 循环评论表信息
                 for(var j=0;j<r.length;j++){
+                    // 同时判断相同用户，获取当前的数据
                     if(r[j].nameId == rr[i].id){
                         r[j].logoURL = rr[i].logoURL;
                         r[j].comName = rr[i].username;
@@ -132,7 +130,15 @@ router.post('/news/getComm',function(q,s){
             s.send(r)
         })
     })
-    
+})
+
+// 删除个人评论
+router.post('/news/delComm',function(q,s){
+    var id = q.body.id;
+    var sql = 'delete from comment where id="'+id+'"'
+    del(sql,function(e,r){
+        s.send(!!r)
+    })
 })
 
 
@@ -141,32 +147,31 @@ router.post('/news/getComm',function(q,s){
 
 // 后台登陆
 router.post('/admin/login',function(q,s,n){
-    var name = q.body.name;
-    var password = q.body.password
-
-    var sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
+    var name = q.body.name,
+        password = q.body.password,
+        sql = 'select * from blog where username="'+name+'" and password="'+password+'"';
     sel(sql,function(e,r){
         q.cookies.set('userInfo',JSON.stringify({
             'id': r[0].id,
             'username': r[0].username,
-            'logoURL': r[0].logoURL
+            'logoURL': r[0].logoURL,
+            'isAdmin': r[0].isAdmin
         }));
-        r ? s.send(r) :  s.send(false);
-        return;
+        s.send(!!r)
     })
 })
 
 // 后台注册
 router.post('/admin/logon',function(q,s,n){
-    var name = q.body.name;
-    var password = q.body.password
-    var us = 'select * from blog where username="'+name+'"';
+    var name = q.body.name,
+        password = q.body.password,
+        us = 'select * from blog where username="'+name+'"';
     sel(us,function(e,r,n){
         if(r.length > 0){
             s.send('false')
         }else{
-            var sql = 'INSERT INTO blog SET  ?';
-            var obj = {username:name,password:password}
+            var sql = 'INSERT INTO blog SET  ?',
+                obj = {username:name,password:password}
             add(sql,obj,function(ee,rr,nn){
                 s.send(!!rr)
             })
@@ -181,9 +186,28 @@ router.post('/admin/logout',function(q,s,n){
 })
 
 
-// 后台-- 获取所有文章
-router.post('/admin/newsAll',function(q,s,n){
-    var sql = 'select * from news';
+// 后台-- 获取文章
+router.post('/admin/newList',function(q,s,n){
+    var wh='';
+    var list = q.body.total || 0;
+    var lim = 'limit '+list+','+list+5;
+    if(q.userInfo.isAdmin == 'false'){
+        wh = ' where name="'+q.userInfo.username+'"'
+    }
+    var sql = 'select * from news'+wh+' ORDER BY time DESC '+lim ;
+    sel(sql,function(e,r,n){
+        s.send(r)
+    })
+})
+
+
+// 后台--获取所有文章
+router.post('/admin/newsAll',function(q,s){
+    var wh='';
+    if(q.userInfo.isAdmin == 'false'){
+        wh = ' where name="'+q.userInfo.username+'"'
+    }
+    var sql = 'select * from news '+wh;
     sel(sql,function(e,r,n){
         s.send(r)
     })
@@ -191,8 +215,8 @@ router.post('/admin/newsAll',function(q,s,n){
 
 // 后台-- 获取单条文章记录
 router.post('/admin/newsFind',function(q,s,n){
-    var i = q.body.id
-    var sql = 'select * from news where id='+i;
+    var i = q.body.id,
+        sql = 'select * from news where id='+i;
     sel(sql,function(e,r,n){
         r ? s.send(r) :  s.send(false)
     })
@@ -200,9 +224,9 @@ router.post('/admin/newsFind',function(q,s,n){
 
 // 后台-- 删除单条文章记录
 router.post('/admin/delNews',function(q,s,n){
-    var i = q.body.id
-    var sql = 'delete from news where id='+i;
-    var obj = {id:i}
+    var i = q.body.id,
+        sql = 'delete from news where id='+i,
+        obj = {id:i}
     del(sql,obj,function(e,r,n){
         r ? s.send(true) :  s.send(false)
     })
@@ -247,8 +271,8 @@ router.post('/admin/delAll',function(q,s,n){
 
 // 后台--获取个人资料
 router.post('/admin/keep-user',function(q,s,n){
-    var username = q.body.name;
-    var sql = 'select * from blog where username="'+username+'"';
+    var username = q.body.name,
+        sql = 'select * from blog where username="'+username+'"';
     sel(sql,function(e,r,n){
         s.send(r)
     })
@@ -267,8 +291,8 @@ router.post('/admin/heat-user',function(q,s,n){
 })
 
 router.post('/admin/img',multipartMiddleware, function (req,res) {
-    var id = req.userInfo.id;
-    var sec = 'select * from blog where id="'+id+'"';
+    var id = req.userInfo.id,
+        sec = 'select * from blog where id="'+id+'"';
      sel(sec,function(e,r){
          var url = req.server_path + r[0].logoURL;
         // 删除原本存放在文件夹的文件
@@ -282,14 +306,15 @@ router.post('/admin/img',multipartMiddleware, function (req,res) {
         //res.send(req.body,req.files,req.files.file.path);
         if(req){
             // 在mysql里路径会有问题，大概是已经字符串对单个\转译了，，所以提前重新定义下路径
-            var url = '/public/temp/' + req.files.file.path.split('\\')[2];
-            var sql = 'update blog set logoURL="'+url+'" where id="'+id+'"';
+            var url = '/public/temp/' + req.files.file.path.split('\\')[2],
+                sql = 'update blog set logoURL="'+url+'" where id="'+id+'"';
             update(sql,function(e,r,n){
                 // console.log(e,r)
             })
         }
      })
-    
 });
+
+
 
 module.exports = router;

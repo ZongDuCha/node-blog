@@ -403,10 +403,14 @@ blockquote,.blockquote{
     background: $color;
     color: #fff;
     cursor: pointer;
+
+    &+.bt-def{
+        margin-left:15px;
+    }
     &:hover{
         background:#094fb7;border-color:#094fb7;
     }
-    &+.active{
+    &.active{
         background:#094fb7;border-color:#094fb7;
     }
 }

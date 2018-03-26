@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{title+'-'+username}}</title>
+    <link rel="stylesheet" href="/public/web/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/public/web/css/index.css">
 </head>
 <body>
@@ -19,7 +20,7 @@
         <li><a href="/admin">Admin</a></li>
     </nav>
 
-    <img src={{logoURL}} alt="" class="logo">
+    <img src={{logoURL || '/public/temp/moren.png'}} alt="" class="logo">
     <div class="tx">
         <h1>{{username || '还没登录'}}</h1>
         <p>梦想还是要有的，万一实现了呢</p>
@@ -39,7 +40,7 @@
         <!-- 文章评论 -->
         <div class="new-comment">
             <textarea name="" class="comm" placeholder="填写评论内容" cols="30" rows="10"></textarea>
-            <button class='sub'>确认回答</button>
+            <button class='sub'><i class="fa fa-send-o"></i> 确认回答</button>
             <div class="comm-top">
             </div>
 
@@ -53,15 +54,36 @@
         <div class="small">
             <img src="/public/web/logonameimg.png" alt="">
             <div class="name">{{name || '没有名字'}}</div>
-            <div class="time">发布时间:{{time}}</div>
+            <div class="time">
+                <i class="fa fa-clock-o"></i>
+                发布时间:{{time}}
+            </div>
+            <div>
+                <i class="fa fa-eye"></i>
+                浏览量：23123
+            </div>
+
+            <div>
+                <i class="fa fa-heart"></i>
+                支持数：123
+            </div>
+
+            <div>
+                <i class="fa fa-comments-o"></i>
+                评论数：123
+            </div>
+
             {% for tab in tab %}
                 <span>{{tab}}</span>
             {% endfor %}
+
+            
     </div>
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+
 var cont = getEl('[data-cont]'),
     sub = getEl('.sub'),
     comm = getEl('.comm'),
@@ -70,6 +92,7 @@ var cont = getEl('[data-cont]'),
     list = getEl('.comm-list');
 cont.innerHTML = cont.dataset.cont;
 
+// 评论
 sub.onclick = function(){
     var value = comm.value;
     if(value == '' || value == null || !value.trim()){
@@ -88,20 +111,26 @@ sub.onclick = function(){
         }
     })
 }
-
+var name = sessionStorage.getItem('username');
 function getComm(){
     axios.post('../api/news/getComm',{
     id: id
     }).then(function(res){
         if(res.data){
-            var str = '',data = res.data;
+            // html字符拼接，缓存res.data数据，判断拼接显示删除按钮
+            var str = '',data = res.data,showSpan='';
             commTop.innerHTML = '全部评论('+data.length+')';
             for(var i=0;i<data.length;i++){
+                if(name == data[i].comName){
+                    showSpan = `<span onclick="delComm(${data[i].id})" title="删除评论"><i class="fa fa-trash-o"></i></span>`;
+                }
                 str += `<div class="list">
                     <img src="${data[i].logoURL}" alt="">
                     <div class="name-top">
-                        <span>${data[i].comName}</span>
-                        <span>${data[i].contTime}</span>
+                        <span><i class="fa fa-user"></i> ${data[i].comName}</span>
+                        <span><i class="fa fa-clock-o"></i> ${data[i].contTime}</span>`+
+                        showSpan+
+                        `
                     </div>
                     <div class="tx">
                         ${data[i].comCont}
@@ -112,7 +141,20 @@ function getComm(){
         }
     })
 }
+// 首次获取全部评论
 getComm()
+// 删除评论
+function delComm(id){
+    axios.post('../api/news/delComm',{
+        id: id
+    }).then(function(res){
+        if(res.data){
+            getComm()
+        }else{
+            console.log('删除失败')
+        }
+    })
+}
 function getEl(e,p){
     return (p || document).querySelector(e)
 }

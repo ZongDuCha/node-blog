@@ -20,7 +20,7 @@
         <li><a href="/admin">Admin</a></li>
     </nav>
 
-    <img src={{logoURL}} alt="" class="logo">
+    <img src={{logoURL || '/public/temp/moren.png'}} alt="" class="logo">
     <div class="tx">
         <h1>{{username || '还没登录'}}</h1>
         <p>梦想还是要有的，万一实现了呢</p>
@@ -31,14 +31,14 @@
     <div class="fLeft">
         <div class="news-list"></div>
         <div class="pagation">
-              <a href="javascrip:;" onclick="newAll()">加载更多...</a>
+              <a href="javascrip:;" onclick="newAll('no')">加载更多...</a>
         </div>
     </div>
 
     <!-- .fRight -->
     <div class="fRight">
         <div class="logo">
-            <img src={{logoURL}} alt="">
+            <img src={{logoURL || '/public/temp/moren.png'}} alt="">
             <p>
                 热爱技术的有为青年
             </p>
@@ -72,11 +72,15 @@ function run(i,res){
     return str;
 }
 var cont = getEl('.news-list'),
-    list = 0;
+    list = 0,
+    q;
 function newAll(_this){
-        var q = _this ? _this.innerHTML : '全部';
+        // 判断点击的是不是 加载更多
+        if(_this != 'no'){
+            q = _this ? _this.innerHTML : '全部';
+        }
         // 切换tab
-        if(_this != null){
+        if(_this != null && _this != 'no'){
             var par = _this.parentNode;
             par.className = 'active';
             var p= par.previousSibling;
@@ -96,8 +100,7 @@ function newAll(_this){
                 n= n.nextSibling;
             }
         }
-
-        // html拼接
+        // html拼接,缓存q数据
         var b = '';
         list++;
         // 第一次访问或点击全部按钮
@@ -139,36 +142,13 @@ function newAll(_this){
                                 `</div>
                         </a></li>`;
                 }
-                cont.innerHTML = b
+                cont.innerHTML = b;
             }).catch(function(err){
                 console.log(err)
             })
         }
 }
 
-
-// 获取文章
 newAll()
-// 文章唯一分类
-// var newTab = getEl('.new-tab')
-// axios.post('../api/admin/newsAll').then(function(res){
-//     if(res.data){
-//         var tabCl = [];
-//         // 去重
-//         for(var i=0;i<res.data.length;i++){
-//             var ab = res.data[i].tab.split(',')
-//             for(var j=0;j<ab.length;j++){
-//                 if(tabCl.indexOf(ab[j]) < 0){
-//                     tabCl.push(ab[j])
-//                 }
-//             }
-//         }
-//         var st = ``
-//         for(var k = 0;k<tabCl.length;k++){
-//             st += `<li><a href="javascript:;" onclick="newAll('${tabCl[k]}',this)">${tabCl[k]}</a></li>`
-//         }
-//         newTab.innerHTML = st
-//     }
-// })
 </script>
 </html>
