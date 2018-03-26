@@ -13,6 +13,7 @@ body {
 
 .container {
   width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
   position: relative;
   display: block; }
@@ -47,8 +48,8 @@ header {
     top: 0;
     background: rgba(255, 255, 255, 0.94);
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 10vw;
+    height: 10vw;
     left: 0;
     right: 0;
     bottom: 0;
@@ -202,31 +203,119 @@ header {
       background: #63a4dc; }
 
 .newInfo {
-  background: #fff;
   border: 1px solid #f6f6f7;
-  margin-top: 20px;
-  padding: 20px; }
-  .newInfo .new-head {
-    border-bottom: 1px solid #f3f3f4;
-    padding-bottom: 20px; }
-    .newInfo .new-head h1 {
-      color: #2d2d2d;
-      margin-bottom: 10px; }
-    .newInfo .new-head .small img {
+  margin: 20px auto; }
+  .newInfo .fLeft {
+    float: left;
+    width: 74%; }
+    .newInfo .fLeft .new-head {
+      border-bottom: 1px solid #f3f3f4;
+      padding-bottom: 20px;
+      background: #fff;
+      padding: 15px; }
+      .newInfo .fLeft .new-head h1 {
+        color: #2d2d2d; }
+    .newInfo .fLeft .new-cont {
+      background: #fff;
+      padding: 15px; }
+    .newInfo .fLeft .new-comment {
+      background: #fff;
+      margin-top: 20px;
+      padding: 10px 0; }
+      .newInfo .fLeft .new-comment .comm {
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+        outline: none;
+        border-radius: 5px;
+        font-size: 18px;
+        max-height: 90px;
+        padding: 5px;
+        transition: .3s; }
+        .newInfo .fLeft .new-comment .comm:focus {
+          box-shadow: 0 0 15px #88a2de; }
+      .newInfo .fLeft .new-comment .sub {
+        display: block;
+        margin-top: 10px;
+        margin-left: 84%;
+        padding: 9px 20px;
+        box-sizing: border-box;
+        background: #1e45b1;
+        color: #fff;
+        border: 1px solid #214abd;
+        border-radius: 5px;
+        transition: .3s;
+        cursor: pointer;
+        outline: none; }
+        .newInfo .fLeft .new-comment .sub:hover {
+          background: #2652cc; }
+      .newInfo .fLeft .new-comment .comm-top {
+        border-bottom: 1px solid #e0dcdc;
+        padding-bottom: 10px;
+        padding: 15px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #232323;
+        letter-spacing: 1px; }
+      .newInfo .fLeft .new-comment .comm-list {
+        padding: 15px; }
+        .newInfo .fLeft .new-comment .comm-list .list {
+          margin-bottom: 20px;
+          border-bottom: 1px solid #eaeaec;
+          padding-bottom: 20px; }
+          .newInfo .fLeft .new-comment .comm-list .list img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            vertical-align: middle; }
+          .newInfo .fLeft .new-comment .comm-list .list .name-top {
+            display: inline-block; }
+            .newInfo .fLeft .new-comment .comm-list .list .name-top span {
+              margin: 0 6px;
+              font-size: 13px; }
+              .newInfo .fLeft .new-comment .comm-list .list .name-top span:nth-child(1) {
+                font-weight: 600;
+                font-size: 16px;
+                margin-left: 15px; }
+          .newInfo .fLeft .new-comment .comm-list .list .tx {
+            letter-spacing: 1px;
+            margin-top: 10px;
+            font-size: 13px; }
+  .newInfo .fRight {
+    float: right;
+    padding: 20px;
+    width: 24%;
+    background: #fff; }
+    .newInfo .fRight .small img {
       border: 1px solid #ddd;
       border-radius: 50%;
-      max-width: 40px;
-      max-height: 40px;
       vertical-align: middle;
-      max-width: 30px;
-      max-height: 30px; }
-    .newInfo .new-head .small * {
+      max-width: 90px;
+      max-height: 90px;
+      margin-top: -5px;
+      display: block;
+      margin: 0 auto; }
+    .newInfo .fRight .small * {
       display: inline-block;
       font-size: 15px;
       margin-right: 18px;
       color: #565353;
       font-weight: 600; }
-    .newInfo .new-head .small span {
+    .newInfo .fRight .small .name {
+      font-size: 24px;
+      color: #3c3a3a;
+      margin: 5px 0;
+      display: block;
+      text-align: center; }
+    .newInfo .fRight .small .time {
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+      letter-spacing: 1px;
+      font-size: 14px;
+      font-weight: 500; }
+    .newInfo .fRight .small span {
       background: #2652cc;
       color: #fff;
       padding: 2px 10px;

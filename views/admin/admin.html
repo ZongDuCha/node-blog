@@ -9,18 +9,18 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <script>
-var un = sessionStorage.getItem('username')
-var ps = sessionStorage.getItem('password')
-if(!!un && !!ps){
-    axios.post('../api/admin/login',{
-        name: un,
-        password: ps
-    }).then(function(res){
-        if(!!res.data){
-            window.location.href = location.href + '/user'
-        }
-    })
-}
+// var un = sessionStorage.getItem('username')
+// var ps = sessionStorage.getItem('password')
+// if(!!un && !!ps){
+//     axios.post('../api/admin/login',{
+//         name: un,
+//         password: ps
+//     }).then(function(res){
+//         if(!!res.data){
+//             window.location.href = location.href + '/user'
+//         }
+//     })
+// }
 </script>
 <body>
 
@@ -79,7 +79,7 @@ var login = In.onclick = function(){
 }
 // 注册
 var logout = Out.onclick = function(){
-        axios.post('../api/admin/logout',{
+        axios.post('../api/admin/logon',{
             name: Name.value,
             password: Password.value
         }).then(function(res){
@@ -96,7 +96,7 @@ var logout = Out.onclick = function(){
 function isLogin(){
     if(window.event.keyCode == 13){
         if(pOut.className == 'in'){
-            logout()
+            logon()
         }else{
             login()
         }

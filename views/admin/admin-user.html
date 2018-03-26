@@ -70,7 +70,7 @@ axios.post('../api/admin/keep-user',{
 }).then(function(res){
     if(res.data.length){
         var r = res.data[0];
-        logo.src = r.logoURL || '/temp/moren.png';
+        logo.src = r.logoURL || '/public/temp/moren.png';
         Name.value = r.username || '';
         Intr.value = r.intr || '';
         Web.value = r.web || '';
@@ -82,8 +82,6 @@ axios.post('../api/admin/keep-user',{
 function getEl(e,p){
     return (p||document).querySelector(e)
 }
-
-
 function comp(q){
     var _id = this.event.path[0].id
     switch(_id){
@@ -110,7 +108,11 @@ function sendData(list,data,cond){
         d: data,
         c: cond
     }).then(function(r){
-        console.log(r.data)
+        if(r.data){
+            console.log('修改成功')
+        }else{
+            console.log('修改失败')
+        }
     })
 }
 
@@ -136,7 +138,7 @@ fl.onchange = function(){
     // 使用formdata 上传图片
     let param = new FormData()
     param.append('file', data, name)
-    param.append('id', 'zongdu')
+    param.append('id', un)
     let config = {
         headers: {'Content-Type': 'multipart/form-data'}
     }

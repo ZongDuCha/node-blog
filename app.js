@@ -3,11 +3,12 @@ var express = require('express');
 var swig = require('swig');
 var app = express();
 var bp = require('body-parser');
+var cookies = require('cookies');
 // 后台上传的模块
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 // 文件的存放地址
-app.use(multipart({uploadDir:'./temp' }));
+app.use(multipart({uploadDir:'./public/temp' }));
 // 取消缓存
 swig.setDefaults({cache:false})
 // 配置当前使用的模版引擎
@@ -20,22 +21,29 @@ app.set('view engine','html')
 app.use(bp.urlencoded({ extended: true, }))
 // 允许参数json类型，否则axios使用请求 后端无法接受
 app.use(bp.json())
+
+// 设置cookie
+app.use(function(req,res,next){
+    req.cookies = new cookies(req,res);
+    // 设置全局cookie信息
+    req.userInfo = {}; 
+    if(!!req.cookies.get('userInfo')){
+        try{
+            req.userInfo = JSON.parse(req.cookies.get('userInfo'))
+        }catch(e){}
+    }
+    req.server_path = path.join(__dirname);
+    next();
+})
+
 // 定义不同路径的模块
+// 后台
 app.use('/admin',require('./routers/admin'));
+// api
 app.use('/api',require('./routers/api'));
-// 创建前端首页
-app.get('/',function(req,res,next){
-    // 指定模版文件，相对于views
-    res.render('web/index')
-})
-app.get('/newInfo',function(req,res,next){
-    // 指定模版文件，相对于views
-    res.render('web/newInfo')
-})
-// 创建后台管理页面
-app.get('/admin',function(req,res,next){
-    res.render('admin/admin')
-})
+// 前端
+app.use('/',require('./routers/web'));
+
 // 定义静态文件访问的路径
 app.use('/public',express.static(__dirname+'/public'));
 app.use('/temp',express.static(__dirname+'/temp'));
