@@ -41,6 +41,8 @@
         <div class="new-comment">
             <textarea name="" class="comm" placeholder="填写评论内容" cols="30" rows="10"></textarea>
             <button class='sub'><i class="fa fa-send-o"></i> 确认回答</button>
+            
+            <a href="" id="comment"></a>
             <div class="comm-top">
             </div>
 
@@ -66,7 +68,7 @@
                 
             </div>
 
-            <a class="commLen">
+            <a class="commLen" href="#comment">
                 
             </a>
 
@@ -117,12 +119,12 @@ function getComm(){
     id: id
     }).then(function(res){
         if(res.data){
-
             // 评论数
-            commLen.innerHTML = `<i class="fa fa-comments-o"></i>评论数：${res.data.length}`;
+            commLen.innerHTML = `<i class="fa fa-comments-o"></i> 评论数：${res.data.length}`;
             // html字符拼接，缓存res.data数据，判断拼接显示删除按钮
             var str = '',data = res.data,showSpan='';
             commTop.innerHTML = '全部评论('+data.length+')';
+
             for(var i=0;i<data.length;i++){
                 if(name == data[i].comName){
                     showSpan = `<span onclick="delComm(${data[i].id})" title="删除评论"><i class="fa fa-trash-o"></i></span>`;
@@ -131,8 +133,8 @@ function getComm(){
                     <img src="${data[i].logoURL || '/public/temp/moren.png'}" alt="">
                     <div class="name-top">
                         <span><i class="fa fa-user"></i> ${data[i].comName}</span>
-                        <span><i class="fa fa-clock-o"></i> ${data[i].contTime}</span>`+
-                        showSpan+
+                        <span><i class="fa fa-clock-o"></i> ${data[i].contTime}</span>`
+                        +showSpan+
                         `
                     </div>
                     <div class="tx">
@@ -140,6 +142,7 @@ function getComm(){
                     </div>
                 </div>`
             }
+
             list.innerHTML = str;
         }
     })
@@ -157,19 +160,34 @@ setTimeout(function(){
     })
 },0)
 
-// 点击支持
+
+
+function setZan(){
+    axios.post('../api/news/setZan',{
+        id:id
+    }).then(function(res){
+        newsZan()
+    })
+}
+
+var un = sessionStorage.getItem('username');
+// 获取支持数
 function newsZan(){
-    console.log(id)
     axios.post('../api/news/zan',{
         id:id
     }).then(function(res){
-        if(res.data){
-            console.log(res.data.length)
-            zan.innerHTML = `<i class="fa fa-heart"></i> 支持数：${res.data.length || 0}`
-            console.log(res.data)
-        }
+        var name = res.data;
+            isShow = false;
+        name.forEach(function(v,i){
+            if(name[i] == un){
+                isShow = true;
+            }
+        })
+        zan.innerHTML = `<div class="ckzan ${isShow ? 'active' : ''}" onclick="setZan()">
+            <i class="fa fa-heart"></i> 支持数：${name.length || 0}</div>`
     })
 }
+
 newsZan();
 // 首次获取全部评论
 getComm()

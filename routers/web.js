@@ -6,13 +6,19 @@ router.get('/',function(req,res,next){
     var sql = 'select * from news';
     sel(sql,function(e,r){
         var tabCl = [];
-        // 去重
-        for(var i=0;i<r.length;i++){
-            var ab = r[i].tab.split(',')
-            for(var j=0;j<ab.length;j++){
-                if(tabCl.indexOf(ab[j]) < 0){
-                    tabCl.push(ab[j])
+        if(!!r.length){
+            // 去重
+            for(var i=0;i<r.length;i++){
+                // 判断是否为空
+                if(!!r[i].tab){
+                    var ab = r[i].tab.split(',');
+                    for(var j=0;j<ab.length;j++){
+                        if(tabCl.indexOf(ab[j]) < 0){
+                            tabCl.push(ab[j])
+                        }
+                    }
                 }
+                
             }
         }
 

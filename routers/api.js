@@ -142,6 +142,7 @@ router.post('/news/delComm',function(q,s){
 })
 
 
+// 文章访问量
 router.post('/news/commLen',function(q,s){
     var id = q.body.id;
     var sql = 'select * from news where id="'+id+'"';
@@ -156,17 +157,44 @@ router.post('/news/commLen',function(q,s){
     })
 })
 
-
+// 获取点赞数
 router.post('/news/zan',function(q,s){
     var id = q.body.id;
-    console.log(id)
-    var sql = 'select * from news where id="'+id+'"'
+    var sql = 'select * from news where id="'+id+'"';
     sel(sql,function(e,r){
-        var len = r[0].zan.split(',');
-        s.send(len)
+        var len = !!r[0].zan ? r[0].zan.split(',') : '0';
+        s.send(len);
     })
 })
 
+
+// 点击 点赞
+router.post('/news/setZan',function(q,s){
+    var id = q.body.id;
+    var sql = 'select * from news where id="'+id+'"';
+    sel(sql,function(e,r){
+        var is;
+        // 判断存在
+        if(!!r[0].zan){
+            var isName = r[0].zan.split(',');
+            var isZan = isName.indexOf(q.userInfo.username);
+            // 存在的情况下删除
+            if(!(isZan < 0)){
+                isName.splice(isZan,1);
+            // 不存在则添加
+            }else{
+                isName.push(q.userInfo.username)
+            }
+            var updateSql = 'update news set zan="'+isName+'" where id="'+id+'"';
+            update(updateSql,function(e,r){
+                is = !!r;
+            })
+        }else{
+            is = fasle;
+        }
+        s.send(is)
+    })
+})
 
 /****************************************************************************** */
 
@@ -267,7 +295,7 @@ router.post('/admin/addNews',function(q,s,n){
         b = q.body.tab,
         m = q.body.time
         sql = 'INSERT INTO news SET  ?',
-        obj = {title:t,cont:c,time:m,tab:b,newsName:q.userInfo.username};
+        obj = {title:t,cont:c,time:m,tab:b,name:q.userInfo.username};
     add(sql,obj,function(e,r,n){
         r ? s.send(true) :  s.send(false)
     })

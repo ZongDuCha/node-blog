@@ -328,6 +328,20 @@ header {
       border-radius: 4px;
       font-weight: 100;
       font-size: 13px; }
+    .newInfo .fRight .small .ckzan {
+      display: inline-block;
+      cursor: pointer;
+      transition: .4s; }
+      .newInfo .fRight .small .ckzan:hover {
+        box-shadow: 0 0 5px #ff0000;
+        border-radius: 2px;
+        padding: 0 5px; }
+      .newInfo .fRight .small .ckzan.active {
+        color: #ff0000 !important; }
+        .newInfo .fRight .small .ckzan.active * {
+          color: #ff0000 !important; }
+    .newInfo .fRight .small a {
+      display: block; }
   .newInfo .new-cont {
     padding-top: 20px; }
 

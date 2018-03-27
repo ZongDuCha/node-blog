@@ -54,7 +54,7 @@ var cont = getEl('.main-cont'),
 axios.post('../api/admin/newsAll').then(function(res){
         // 分页
         var page = '';
-        var list = res.data.length/5;
+        var list = res.data.length/5 || 1;
         for(var i=0;i<list;i++){
             page += `<a href="javascript:;" class="bt-def" onclick="getLim(${i},this)">${i+1}</a>`;
         }
@@ -105,7 +105,8 @@ function getLim(id,_this){
                             n= n.nextSibling;
                         }
                     }else{
-                        var par = document.querySelectorAll('.main-pagation a')[Math.ceil(list/5)].className = 'bt-def active';
+                        var par = document.querySelectorAll('.main-pagation a');
+                        par ?  par[Math.ceil(list/5)].className = 'bt-def active' : '';
                     }
             },0)
         }
@@ -138,8 +139,6 @@ function del(x){
         }
     })
 }
-
-
 
 // 删除全部文章记录
 function delAll(){

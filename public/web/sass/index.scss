@@ -401,7 +401,6 @@ header{
             }
 
             span{
-                
                 margin-right: 18px;display: inline-block;
             }
 
@@ -427,6 +426,27 @@ header{
                 border-radius: 4px;
                 font-weight: 100;
                 font-size: 13px;
+            }
+
+            .ckzan{
+                display:inline-block;
+                cursor: pointer;
+                transition:.4s;
+                &:hover{
+                    box-shadow: 0 0 5px #ff0000;
+                    border-radius: 2px;
+                    padding: 0 5px;
+                }
+                &.active{
+                    color:#ff0000 !important;
+                    *{
+                        color:#ff0000!important;
+                    }
+                }
+            }
+
+            a{
+                display: block;
             }
         }
     }
