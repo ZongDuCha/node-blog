@@ -11,9 +11,6 @@ router.get('/',function(req,res,next){
     }
 })
 
-// router.get('*',function(req,res){
-//     console.log(req.userInfo)
-// })
 
 
 router.get('/user',function(req,res,next){
@@ -24,6 +21,17 @@ router.get('/user',function(req,res,next){
             'userInfo': req.userInfo
         })
     }
+})
+
+router.get('/admin-userAll',function(req,res){
+    var sql = 'select * from blog';
+    sel(sql,function(e,r){
+        if(r.length){
+            res.render('admin/admin-userAll',{
+                'blog':r
+            })
+        }
+    })
 })
 
 

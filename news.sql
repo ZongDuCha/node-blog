@@ -1,0 +1,2 @@
+INSERT INTO `news` (`id`, `title`, `cont`, `time`, `tab`, `name`, `zan`, `visit`) VALUES (68, '呀呀呀，测试一下哦', '123asd<audio controls=\"controls\" style=\"display: none;\"></audio>', '2018-3-27', '测试的', 'zongdu', 'zongdu', 13);
+INSERT INTO `news` (`id`, `title`, `cont`, `time`, `tab`, `name`, `zan`, `visit`) VALUES (69, '普通用户发表的文章', '123<audio controls=\"controls\" style=\"display: none;\"></audio>', '2018-3-27', '普通', 'zongdusir', 'zongdu,123,zongdusir', 118);

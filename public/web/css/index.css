@@ -335,7 +335,7 @@ header {
       .newInfo .fRight .small .ckzan:hover {
         box-shadow: 0 0 5px #ff0000;
         border-radius: 2px;
-        padding: 0 5px; }
+        padding: 0 10px; }
       .newInfo .fRight .small .ckzan.active {
         color: #ff0000 !important; }
         .newInfo .fRight .small .ckzan.active * {

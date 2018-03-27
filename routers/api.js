@@ -127,6 +127,7 @@ router.post('/news/getComm',function(q,s){
                     }
                 }
             }
+            console.log(r)
             s.send(r)
         })
     })
@@ -227,7 +228,9 @@ router.post('/admin/logon',function(q,s,n){
             s.send('false')
         }else{
             var sql = 'INSERT INTO blog SET  ?',
-                obj = {username:name,password:password}
+                date = new Date();
+                time = date.getFullYear() + '-' + (date.getMonth()+1)+ '-'+ date.getDate() + ' '+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+                obj = {username:name,password:password,newTime:time},
             add(sql,obj,function(ee,rr,nn){
                 s.send(!!rr)
             })
@@ -372,5 +375,19 @@ router.post('/admin/img',multipartMiddleware, function (req,res) {
 });
 
 
+// 删除全部用户
+router.post('/admin/delUserAll',function(q,s){
+    var is;
+    // 删除不包括zongdu的所有用户
+    var sql = 'delete from blog where not `username` like "zongdu"'
+    if(q.userInfo.isAdmin == 'true'){
+        del(sql,function(e,r){
+        })
+        is = true;
+    }else{
+        is = false;
+    }
+    s.send(is)
+})
 
 module.exports = router;
