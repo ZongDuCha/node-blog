@@ -41,7 +41,7 @@ router.get('/newInfo',function(req,res,next){
             var tab = r[0].tab.split(',');
             if(r){
                 res.render('web/newInfo',{
-                    'name':r[0].newsName,
+                    'name':r[0].name,
                     'time': r[0].time,
                     'tab': tab,
                     'title': r[0].title,

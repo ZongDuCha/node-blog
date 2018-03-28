@@ -65,9 +65,12 @@ var Name = getEl('#name'),
     Intr = getEl('#intr'),
     Web = getEl('#web'),
     Comp = getEl('#comp'),
-    logo = getEl('.logo');
+    logo = getEl('.logo'),
+    fl = getEl('[type=file]'),
+    username = location.search.split('id=')[1];
 axios.post('../api/admin/keep-user',{
-    name: un
+    name: un,
+    username: username
 }).then(function(res){
     if(res.data.length){
         var r = res.data[0];
@@ -80,6 +83,8 @@ axios.post('../api/admin/keep-user',{
         console.log('获取失败')
     }
 })
+
+
 function getEl(e,p){
     return (p||document).querySelector(e)
 }
@@ -101,9 +106,14 @@ function comp(q){
     }
 }
 
+if(username != sessionStorage.getItem('username') && username){
+    Intr.disabled = Web.disabled = Comp.disabled = logo.disabled = fl.disabled = true
+    fl.style.display='none';
+}
+
+
 // 列名 -- 要修改的数据 -- 条件
 function sendData(list,data,cond){
-    
     axios.post('../api/admin/heat-user',{
         l: list,
         d: data,
@@ -117,10 +127,12 @@ function sendData(list,data,cond){
     })
 }
 
-
 // 获取获取file对象
-var fl = getEl('[type=file]')
 fl.onchange = function(){
+    if(username != sessionStorage.getItem('username')){
+        alert('不得上传');
+        return;
+    }
     var data = this.files[0],
         name = data.name,
         size = data.size,

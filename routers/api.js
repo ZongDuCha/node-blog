@@ -102,6 +102,7 @@ router.post('/news/comm',function(q,s){
         var time = date.getFullYear() + '-' + (date.getMonth()+1)+ '-'+ date.getDate() + '  '+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
         var addObj = {nameId:nameId,comCont:cont,contTime:time,newsId:newsId};
         add(addSql,addObj,function(ee,rr){
+            console.log(ee,rr)
             s.send(!!rr)
         })
     })
@@ -127,7 +128,6 @@ router.post('/news/getComm',function(q,s){
                     }
                 }
             }
-            console.log(r)
             s.send(r)
         })
     })
@@ -174,26 +174,27 @@ router.post('/news/setZan',function(q,s){
     var id = q.body.id;
     var sql = 'select * from news where id="'+id+'"';
     sel(sql,function(e,r){
-        var is;
-        // 判断存在
-        if(!!r[0].zan){
+        var isName = [];
+        // 判断是否为空数组
+        if(r[0].zan.length){
             var isName = r[0].zan.split(',');
             var isZan = isName.indexOf(q.userInfo.username);
-            // 存在的情况下删除
+            // 判断用户存在
             if(!(isZan < 0)){
                 isName.splice(isZan,1);
             // 不存在则添加
             }else{
                 isName.push(q.userInfo.username)
             }
-            var updateSql = 'update news set zan="'+isName+'" where id="'+id+'"';
-            update(updateSql,function(e,r){
-                is = !!r;
-            })
         }else{
-            is = fasle;
+            isName.push(q.userInfo.username);
         }
-        s.send(is)
+        
+        var updateSql = 'update news set zan="'+isName+'" where id="'+id+'"';
+        update(updateSql,function(e,r){
+            s.send(!!r)
+        })
+
     })
 })
 
@@ -230,7 +231,7 @@ router.post('/admin/logon',function(q,s,n){
             var sql = 'INSERT INTO blog SET  ?',
                 date = new Date();
                 time = date.getFullYear() + '-' + (date.getMonth()+1)+ '-'+ date.getDate() + ' '+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-                obj = {username:name,password:password,newTime:time},
+                obj = {username:name,password:password,creatTime:time},
             add(sql,obj,function(ee,rr,nn){
                 s.send(!!rr)
             })
@@ -330,7 +331,7 @@ router.post('/admin/delAll',function(q,s,n){
 
 // 后台--获取个人资料
 router.post('/admin/keep-user',function(q,s,n){
-    var username = q.body.name,
+    var username = q.body.username ||q.body.name;
         sql = 'select * from blog where username="'+username+'"';
     sel(sql,function(e,r,n){
         s.send(r)

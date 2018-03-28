@@ -55,7 +55,7 @@
     <div class="fRight">
         <div class="small">
             <img src="/public/web/logonameimg.png" alt="">
-            <div class="name">{{name || '没有名字'}}</div>
+            <div class="name">{{name || '佚名者'}}</div>
             <div class="time">
                 <i class="fa fa-clock-o"></i>
                 发布时间:{{time}}
@@ -75,8 +75,6 @@
             {% for tab in tab %}
                 <span>{{tab}}</span>
             {% endfor %}
-
-            
     </div>
 </div>
 
@@ -176,13 +174,15 @@ function newsZan(){
     axios.post('../api/news/zan',{
         id:id
     }).then(function(res){
-        var name = res.data;
+        var name = res.data,
             isShow = false;
-        name.forEach(function(v,i){
-            if(name[i] == un){
-                isShow = true;
-            }
-        })
+        if(name){
+            name.forEach(function(v,i){
+                if(name[i] == un){
+                    isShow = true;
+                }
+            })
+        }
         zan.innerHTML = `<div class="ckzan ${isShow ? 'active' : ''}" onclick="setZan()">
             <i class="fa fa-heart"></i> 支持：${name.length || 0}</div>`
     })

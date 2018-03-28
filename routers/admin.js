@@ -4,7 +4,7 @@ var { sel,add,update,del} = require('./mysql')
 
 // 创建后台管理页面
 router.get('/',function(req,res,next){
-    if(JSON.stringify(req.userInfo) != '{}'){
+    if(req.userInfo.username){
         res.redirect('/admin/user')
     }else{
         res.render('admin/admin')
@@ -17,8 +17,15 @@ router.get('/user',function(req,res,next){
     if(JSON.stringify(req.userInfo) == '{}'){
         res.redirect('/admin')
     }else{
-        res.render('admin/user',{
-            'userInfo': req.userInfo
+        var sql = 'select * from blog where username="'+req.userInfo.username+'"'
+        sel(sql,function(e,r){
+            if(!r.length){
+                res.redirect('/admin')
+            }else{
+                res.render('admin/user',{
+                    'userInfo': req.userInfo
+                })
+            }
         })
     }
 })
@@ -46,6 +53,8 @@ router.get('/mod-news',function(req,res,next){
     res.render('admin/mod-news')
 })
 
+
+// 后台个人信息
 router.get('/admin-user',function(req,res,next){
     res.render('admin/admin-user')
 })
