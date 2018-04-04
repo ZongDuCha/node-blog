@@ -175,8 +175,9 @@ router.post('/news/setZan',function(q,s){
     var sql = 'select * from news where id="'+id+'"';
     sel(sql,function(e,r){
         var isName = [];
+        console.log(r[0])
         // 判断是否为空数组
-        if(r[0].zan.length){
+        if(r[0].zan != null && r[0].zan.length){
             var isName = r[0].zan.split(',');
             var isZan = isName.indexOf(q.userInfo.username);
             // 判断用户存在
@@ -301,7 +302,7 @@ router.post('/admin/addNews',function(q,s,n){
         sql = 'INSERT INTO news SET  ?',
         obj = {title:t,cont:c,time:m,tab:b,name:q.userInfo.username};
     add(sql,obj,function(e,r,n){
-        r ? s.send(true) :  s.send(false)
+        r ? s.send(true) :  s.send(false);
     })
 })
 

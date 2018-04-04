@@ -61,15 +61,12 @@
                 发布时间:{{time}}
             </div>
             <div class="visit">
-                
             </div>
 
             <div class="zan">
-                
             </div>
 
             <a class="commLen" href="#comment">
-                
             </a>
 
             {% for tab in tab %}
@@ -89,8 +86,10 @@ var cont = getEl('[data-cont]'),
     list = getEl('.comm-list'),
     commLen = getEl('.commLen'),
     visit = getEl('.visit'),
-    zan = getEl('.zan');
-cont.innerHTML = cont.dataset.cont;
+    zan = getEl('.zan'),
+    un = sessionStorage.getItem('username'),
+    ps = sessionStorage.getItem('password');
+    cont.innerHTML = cont.dataset.cont;
 
 // 评论
 sub.onclick = function(){
@@ -178,6 +177,8 @@ function newsZan(){
             isShow = false;
         if(name){
             name.forEach(function(v,i){
+                console.log(name[i])
+                console.log(un)
                 if(name[i] == un){
                     isShow = true;
                 }

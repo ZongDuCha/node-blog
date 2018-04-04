@@ -58,10 +58,10 @@
 </div>
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/public/admin/isLogin.js"></script>
 <script>
-
-var Name = getEl('#name'),
+var un = sessionStorage.getItem('username'),
+    ps = sessionStorage.getItem('password'),
+    Name = getEl('#name'),
     Intr = getEl('#intr'),
     Web = getEl('#web'),
     Comp = getEl('#comp'),
@@ -83,7 +83,6 @@ axios.post('../api/admin/keep-user',{
         console.log('获取失败')
     }
 })
-
 
 function getEl(e,p){
     return (p||document).querySelector(e)

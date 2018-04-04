@@ -27,11 +27,74 @@
 <input type="text" class="title" placeholder='请输入文章标题'>
 <input type="text" class="tab" placeholder='请输入文章分类   以,分割'>
 <script id="editor" type="text/plain" style="width:100%;height:500px;margin-top:5px;"></script>
+
+<div id="standalone-container">
+<div id="toolbar-container">
+    <span class="ql-formats">
+    <select class="ql-font"></select>
+    <select class="ql-size"></select>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-bold"></button>
+    <button class="ql-italic"></button>
+    <button class="ql-underline"></button>
+    <button class="ql-strike"></button>
+    </span>
+    <span class="ql-formats">
+    <select class="ql-color"></select>
+    <select class="ql-background"></select>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-script" value="sub"></button>
+    <button class="ql-script" value="super"></button>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-header" value="1"></button>
+    <button class="ql-header" value="2"></button>
+    <button class="ql-blockquote"></button>
+    <button class="ql-code-block"></button>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-list" value="ordered"></button>
+    <button class="ql-list" value="bullet"></button>
+    <button class="ql-indent" value="-1"></button>
+    <button class="ql-indent" value="+1"></button>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-direction" value="rtl"></button>
+    <select class="ql-align"></select>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-link"></button>
+    <button class="ql-image"></button>
+    <button class="ql-video"></button>
+    <button class="ql-formula"></button>
+    </span>
+    <span class="ql-formats">
+    <button class="ql-clean"></button>
+    </span>
+</div>
+<div id="editor-container"></div>
+</div>
+
+
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
 <script>
 var id = location.search.slice(1,-1).split('=')[1];
-var ue = UE.getEditor('editor');
+//var ue = UE.getEditor('editor');
+
+var quill = new Quill('#editor-container', {
+    modules: {
+      toolbar: '#toolbar-container'
+    },
+    theme: 'snow'
+});
+
 // 判断是否有传id
 if(id){
     axios.post('../api/admin/newsFind',{
@@ -40,9 +103,7 @@ if(id){
         if(res.data){
             getEl('.title').value = res.data[0].title;
             getEl('.tab').value = res.data[0].tab;
-            ue.addListener('ready',function(){
-                ue.setContent(res.data[0].cont)
-            })
+            document.querySelector('.ql-editor').innerHTML = res.data[0].cont;
         }
     })
 }
@@ -60,7 +121,7 @@ function getContent(ue) {
         return;
     }
     
-    arr.push(UE.getEditor('editor').getContent());
+    //arr.push(UE.getEditor('editor').getContent());
     var yuer = new Date().getFullYear();
     var mon = new Date().getMonth()+1;
     var day = new Date().getDate();
@@ -69,7 +130,7 @@ function getContent(ue) {
         axios.post('../api/admin/modNews',{
             id: id,
             title: title,
-            cont: arr.join('\n'),
+            cont: document.querySelector('.ql-editor').innerHTML,
             tab: tab,
             time: s
         }).then(function(res){
