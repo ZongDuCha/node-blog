@@ -127,10 +127,6 @@ function sendData(list,data,cond){
 
 // 获取获取file对象
 fl.onchange = function(){
-    if(username != sessionStorage.getItem('username')){
-        alert('不得上传');
-        return;
-    }
     var data = this.files[0],
         name = data.name,
         size = data.size,
